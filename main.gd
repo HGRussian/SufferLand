@@ -1,7 +1,12 @@
 extends Node2D
 
 onready var map = get_node("map")
-var size = 256
+onready var cam = get_node("Camera2D")
+onready var info = get_node("ui/info")
+var size = 64
+var world_size = 8192
+var rivers = 256
+var riv_count = 0
 var ground_tile = [0,6,12,18,24,30,35,40]
 var water_tile = [45]
 
@@ -13,30 +18,24 @@ var riv_single_corner_tile = [39]
 var riv_single_border_tile = [47]
 var riv_bridge_tile = [5,11,17]
 
+var ready_chunks = []
+
 func _ready():
 	randomize()
 	map.clear()
-	_gen()
-	
+	set_process(true)
 
-func _gen():
-	map.clear()
-	#ground
-	for x in range(0-size/2,size/2):
-		for y in range(0-size/2,size/2):
-			map.set_cell(x,y,ground_tile[0])
+func _process(delta):
 	#rivers
-	var rivers = size/32
-	var riv_count = 0
-	while riv_count < rivers:
+	if riv_count < rivers:
+		
 		riv_count+=1
-		var riv_size = size+randi()%size
-		var sx = randi()%size-size/2
-		var sy = randi()%size-size/2
-		var tile_count = 0
+		var riv_size = world_size/4+randi()%world_size/8
+		var sx = randi()%world_size-world_size/2
+		var sy = randi()%world_size-world_size/2
 		var dir = 0
 		var riv_dir = randi()%4
-		var brigde_count = 0
+		var tile_count = 0
 		while tile_count < riv_size:
 			if riv_dir == 0:
 				sx+=1
@@ -64,20 +63,29 @@ func _gen():
 				for y in range(sy-randi()%3,sy+randi()%3):
 					if map.get_cell(x,y) != riv_bridge_tile[0]:
 						map.set_cell(x,y,water_tile[0])
+			if randi()%16 == 0:
+				riv_dir = randi()%4
 			tile_count+=1
-			#brigdes
-#			if brigde_count != riv_brigde_max:
-#				if randi()%16 == 0:
-#					brigde_count+=1
-#					var bx = sx
-#					var by = sy
-#					if riv_dir < 2:
-#						
-#					if riv_dir > 1:
-#						
+	
+	var cur_chunk = Vector2(round((map.world_to_map(cam.get_camera_pos())/size).x),round((map.world_to_map(cam.get_camera_pos())/size).y))
+	if riv_count == rivers:
+		if ready_chunks.find(cur_chunk) == -1:
+			_gen(cur_chunk.x,cur_chunk.y)
+	else:
+		info.set_text(str(riv_count+1,"/",rivers))
+	
+
+func _gen(chunkx,chunky):
+	ready_chunks.append(Vector2(chunkx,chunky))
+	#ground
+	for x in range(chunkx*size-size/2,chunkx*size+size/2):
+		for y in range(chunky*size-size/2,chunky*size+size/2):
+			if map.get_cell(x,y) == -1:
+				map.set_cell(x,y,ground_tile[0])
+
 	#riv_noise
-	for x in range(0-size/2,size/2):
-		for y in range(0-size/2,size/2):
+	for x in range(chunkx*size-size/2,chunkx*size+size/2):
+		for y in range(chunky*size-size/2,chunky*size+size/2):
 			if map.get_cell(x,y) == water_tile[0]:
 				if randi()%32 == 0:
 					for qx in range(x-randi()%2,x+randi()%2):
@@ -85,8 +93,8 @@ func _gen():
 							if map.get_cell(qx,qy) != riv_bridge_tile[0]:
 								map.set_cell(qx,qy,ground_tile[0])
 	#riv_borders
-	for x in range(0-size/2,size/2):
-		for y in range(0-size/2,size/2):
+	for x in range(chunkx*size-size/2,chunkx*size+size/2):
+		for y in range(chunky*size-size/2,chunky*size+size/2):
 			if map.get_cell(x,y) != water_tile[0]:
 				#borders
 				if map.get_cell(x,y+1) == water_tile[0]:
@@ -146,11 +154,12 @@ func _gen():
 				if map.get_cell(x+1,y) == water_tile[0] and map.get_cell(x-1,y) == water_tile[0] and map.get_cell(x,y-1) == water_tile[0] and map.get_cell(x,y+1) == water_tile[0]:
 					map.set_cell(x,y,riv_single_tile[0],randi()%2,randi()%2,randi()%2)
 	#grnd_noise
-	for x in range(0-size/2,size/2):
-		for y in range(0-size/2,size/2):
-			if map.get_cell(x,y) == ground_tile[0]:
-				if randi()%8 == 0:
-					map.set_cell(x,y,ground_tile[randi()%ground_tile.size()],randi()%2,randi()%2,randi()%2)
+	for x in range(chunkx*size-size/2,chunkx*size+size/2):
+		for y in range(chunky*size-size/2,chunky*size+size/2):
+			if map.get_cell(x,y) != water_tile[0]:
+				if map.get_cell(x,y) == ground_tile[0]:
+					if randi()%8 == 0:
+						map.set_cell(x,y,ground_tile[randi()%ground_tile.size()],randi()%2,randi()%2,randi()%2)
 			if map.get_cell(x,y) == riv_bridge_tile[0]:
 				if map.is_cell_transposed(x,y):
 					map.set_cell(x,y,riv_bridge_tile[randi()%riv_bridge_tile.size()],false,false,true)
