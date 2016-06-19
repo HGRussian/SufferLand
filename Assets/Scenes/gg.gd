@@ -6,6 +6,7 @@ var playing_anim = "idle"
 var right_hand = true
 var weapon_type = 0
 # 0 - NO WEAPON
+# 1 - BOW
 
 var timer_stop = true
 
@@ -71,6 +72,7 @@ func _fixed_process(delta):
 
 func _ready():
 	set_fixed_process(true)
+	get_parent().get_node("UI/Inventory").show()
 
 func _on_Timer_timeout():
 	if (get_parent().get_node("map").get_cellv(get_parent().get_node("map").world_to_map( get_pos())) == 1):
