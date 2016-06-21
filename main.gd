@@ -1,167 +1,84 @@
 extends Node2D
 
-onready var map = get_node("map")
-onready var cam = get_node("Camera2D")
-onready var info = get_node("ui/info")
-var size = 64
-var world_size = 8192
-var rivers = 256
-var riv_count = 0
-var ground_tile = [0,6,12,18,24,30,35,40]
-var water_tile = [45]
+var SIZE_RECT = 10
 
-var riv_brigde_max = 4
-var riv_border_tile = [3,9,15,21]
-var riv_corner_tile = [10,16,22,28]
-var riv_single_tile = [44]
-var riv_single_corner_tile = [39]
-var riv_single_border_tile = [47]
-var riv_bridge_tile = [5,11,17]
 
-var ready_chunks = []
 
-func _ready():
+var cw = Color (0.7,0.7,1)
+var cr = Color (0.8,0.8,0)
+var cg = Color (0.1,0.9,0.1)
+var cb = Color (0,0,0.8)
+var cc = Color (0,0.7,0)
+var tr = Color (0.3,1,0.3)
+
+
+var colors = [cw,cr,cg,cb,cc,tr]
+			
+var variant = {cw:[0,2,4],
+				cr:[1,2],
+				cg:[0,1,2,3,4],
+				cb:[2,3,4,5],
+				cc:[0,2,3,4,5],
+				tr:[1,3,4,5]
+				}
+var m = []
+var n=64
+func _draw():
+	var color=0
 	randomize()
-	map.clear()
-	set_process(true)
+	for i in range (0,n):
+		var t = []
+		for j in range (0,n):
+			t.append(-1)
+		m.append(t)
+			
+	for i in range (0,n):
+		for j in range (0,n):
+			if i==0 and j==0:
+				color = randi() % colors.size() # 0-4
+			else:
 
-func _process(delta):
-	#rivers
-	if riv_count < rivers:
-		
-		riv_count+=1
-		var riv_size = world_size/4+randi()%world_size/8
-		var sx = randi()%world_size-world_size/2
-		var sy = randi()%world_size-world_size/2
-		var dir = 0
-		var riv_dir = randi()%4
-		var tile_count = 0
-		while tile_count < riv_size:
-			if riv_dir == 0:
-				sx+=1
-			if riv_dir == 1:
-				sx+=-1
-			if riv_dir == 2:
-				sy+=1
-			if riv_dir == 3:
-				sy+=-1
-			for x in range(sx-2,sx+2):
-				for y in range(sy-2,sy+2):
-					if map.get_cell(x,y) != riv_bridge_tile[0]:
-						map.set_cell(x,y,water_tile[0])
-			tile_count+=1
-			dir = randi()%4
-			if dir == 0:
-				sx+=1
-			if dir == 1:
-				sx+=-1
-			if dir == 2:
-				sy+=1
-			if dir == 3:
-				sy+=-1
-			for x in range(sx-randi()%3,sx+randi()%3):
-				for y in range(sy-randi()%3,sy+randi()%3):
-					if map.get_cell(x,y) != riv_bridge_tile[0]:
-						map.set_cell(x,y,water_tile[0])
-			if randi()%16 == 0:
-				riv_dir = randi()%4
-			tile_count+=1
-	
-	var cur_chunk = Vector2(round((map.world_to_map(cam.get_camera_pos())/size).x),round((map.world_to_map(cam.get_camera_pos())/size).y))
-	if riv_count == rivers:
-		if ready_chunks.find(cur_chunk) == -1:
-			_gen(cur_chunk.x,cur_chunk.y)
-	else:
-		info.set_text(str(riv_count+1,"/",rivers))
-	
+				var dir = [[1,0],[-1,0], [0,-1],[0,1],
+				          [1,1],[-1,-1],[-1,1],[1,-1]]
+				var cur_variant = variant[colors[color]] #1->cr->[1,2] #color = old color
 
-func _gen(chunkx,chunky):
-	ready_chunks.append(Vector2(chunkx,chunky))
-	#ground
-	for x in range(chunkx*size-size/2,chunkx*size+size/2):
-		for y in range(chunky*size-size/2,chunky*size+size/2):
-			if map.get_cell(x,y) == -1:
-				map.set_cell(x,y,ground_tile[0])
+				var ok=0
+				while ok<8:
+					color = cur_variant[randi() % cur_variant.size()]
 
-	#riv_noise
-	for x in range(chunkx*size-size/2,chunkx*size+size/2):
-		for y in range(chunky*size-size/2,chunky*size+size/2):
-			if map.get_cell(x,y) == water_tile[0]:
-				if randi()%32 == 0:
-					for qx in range(x-randi()%2,x+randi()%2):
-						for qy in range(y-randi()%2,y+randi()%2):
-							if map.get_cell(qx,qy) != riv_bridge_tile[0]:
-								map.set_cell(qx,qy,ground_tile[0])
-	#riv_borders
-	for x in range(chunkx*size-size/2,chunkx*size+size/2):
-		for y in range(chunky*size-size/2,chunky*size+size/2):
-			if map.get_cell(x,y) != water_tile[0]:
-				#borders
-				if map.get_cell(x,y+1) == water_tile[0]:
-					map.set_cell(x,y,riv_border_tile[randi()%riv_border_tile.size()],false,true,false)
-				if map.get_cell(x,y-1) == water_tile[0]:
-					map.set_cell(x,y,riv_border_tile[randi()%riv_border_tile.size()],false,false,false)
-				if map.get_cell(x+1,y) == water_tile[0]:
-					map.set_cell(x,y,riv_border_tile[randi()%riv_border_tile.size()],true,false,true)
-				if map.get_cell(x-1,y) == water_tile[0]:
-					map.set_cell(x,y,riv_border_tile[randi()%riv_border_tile.size()],false,false,true)
-				#corners
-				if map.get_cell(x+1,y) == water_tile[0]:
-					if map.get_cell(x,y+1) == water_tile[0]:
-						map.set_cell(x,y,riv_corner_tile[randi()%riv_corner_tile.size()],true,true,false)
-					if map.get_cell(x,y-1) == water_tile[0]:
-						map.set_cell(x,y,riv_corner_tile[randi()%riv_corner_tile.size()],true,false,false)
+					for d_xy in dir:
+						var i2 = d_xy[0]+i
+						var j2 = d_xy[1]+j
+						if not(i2 in [-1,n]) and not(j2 in [-1,n]):
+							if m[i2][j2] in variant[colors[color]]+[-1]:
+								ok+=1
+							else:
+								ok=0
+								break
+						else:
+							ok+=1
+			m[i][j] = color
+	for xxx in range(10):		
+		for i in range (0, n):
+			for j in range (0, n):
+				var neigbor_points = [[[1,0], [-1,0]], [[0,-1], [0,1]]]
+				for points in neigbor_points:
+					var vh = []
+					for point in points:
+						var i2 = i + point[0]
+						var j2 = j + point[1]
+						if not(i2 in [-1,n]) and not(j2 in [-1,n]):
+							vh.append(m[i2][j2])
+						else:
+							vh.append(-1)
+					if vh[0]==vh[1]:
+						m[i][j]=vh[0]
+					
+
 				
-				if map.get_cell(x-1,y) == water_tile[0]:
-					if map.get_cell(x,y+1) == water_tile[0]:
-						map.set_cell(x,y,riv_corner_tile[randi()%riv_corner_tile.size()],false,true,false)
-					if map.get_cell(x,y-1) == water_tile[0]:
-						map.set_cell(x,y,riv_corner_tile[randi()%riv_corner_tile.size()],false,false,false)
-				
-				if map.get_cell(x,y+1) == water_tile[0]:
-					if map.get_cell(x+1,y) == water_tile[0]:
-						map.set_cell(x,y,riv_corner_tile[randi()%riv_corner_tile.size()],true,true,false)
-					if map.get_cell(x-1,y) == water_tile[0]:
-						map.set_cell(x,y,riv_corner_tile[randi()%riv_corner_tile.size()],false,true,false)
-				
-				if map.get_cell(x,y-1) == water_tile[0]:
-					if map.get_cell(x+1,y) == water_tile[0]:
-						map.set_cell(x,y,riv_corner_tile[randi()%riv_corner_tile.size()],true,false,false)
-					if map.get_cell(x-1,y) == water_tile[0]:
-						map.set_cell(x,y,riv_corner_tile[randi()%riv_corner_tile.size()],false,false,false)
-				#single_border
-				if map.get_cell(x+1,y) == water_tile[0] and map.get_cell(x-1,y) == water_tile[0] and map.get_cell(x,y) != riv_bridge_tile[0]:
-					map.set_cell(x,y,riv_single_border_tile[0],false,false,true)
-				if map.get_cell(x,y-1) == water_tile[0] and map.get_cell(x,y+1) == water_tile[0] and map.get_cell(x,y) != riv_bridge_tile[0]:
-					map.set_cell(x,y,riv_single_border_tile[0],false,false,false)
-				#single_corner
-				if map.get_cell(x+1,y) == water_tile[0]:
-					if map.get_cell(x,y+1) == water_tile[0] and map.get_cell(x,y-1) == water_tile[0]:
-						map.set_cell(x,y,riv_single_corner_tile[0],false,false,false)
-				
-				if map.get_cell(x-1,y) == water_tile[0]:
-					if map.get_cell(x,y+1) == water_tile[0] and map.get_cell(x,y-1) == water_tile[0]:
-						map.set_cell(x,y,riv_single_corner_tile[0],true,false,false)
-				
-				if map.get_cell(x,y-1) == water_tile[0]:
-					if map.get_cell(x-1,y) == water_tile[0] and map.get_cell(x+1,y) == water_tile[0]:
-						map.set_cell(x,y,riv_single_corner_tile[0],false,true,true)
-				
-				if map.get_cell(x,y+1) == water_tile[0]:
-					if map.get_cell(x-1,y) == water_tile[0] and map.get_cell(x+1,y) == water_tile[0]:
-						map.set_cell(x,y,riv_single_corner_tile[0],false,false,true)
-				#single
-				if map.get_cell(x+1,y) == water_tile[0] and map.get_cell(x-1,y) == water_tile[0] and map.get_cell(x,y-1) == water_tile[0] and map.get_cell(x,y+1) == water_tile[0]:
-					map.set_cell(x,y,riv_single_tile[0],randi()%2,randi()%2,randi()%2)
-	#grnd_noise
-	for x in range(chunkx*size-size/2,chunkx*size+size/2):
-		for y in range(chunky*size-size/2,chunky*size+size/2):
-			if map.get_cell(x,y) != water_tile[0]:
-				if map.get_cell(x,y) == ground_tile[0]:
-					if randi()%8 == 0:
-						map.set_cell(x,y,ground_tile[randi()%ground_tile.size()],randi()%2,randi()%2,randi()%2)
-			if map.get_cell(x,y) == riv_bridge_tile[0]:
-				if map.is_cell_transposed(x,y):
-					map.set_cell(x,y,riv_bridge_tile[randi()%riv_bridge_tile.size()],false,false,true)
-				else:
-					map.set_cell(x,y,riv_bridge_tile[randi()%riv_bridge_tile.size()])
+	for i in range (0, n):
+		for j in range (0, n):	
+			draw_rect(Rect2(Vector2(i*SIZE_RECT,j*SIZE_RECT),Vector2(SIZE_RECT,SIZE_RECT)),colors[m[i][j]])
+
+func _on_Button_pressed():
+	update()

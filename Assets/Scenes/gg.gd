@@ -10,69 +10,82 @@ var weapon_type = 0
 
 var timer_stop = true
 
+var press_inv = false
+
+var open_inv = false
+
 func _fixed_process(delta):
-	var motion = Vector2()
+	if open_inv == false:
+		var motion = Vector2()
+		
+		if (Input.is_action_pressed("move_up")):
+			motion += Vector2(0, -1)
+		if (Input.is_action_pressed("move_down")):
+			motion += Vector2(0, 1)
+		if (Input.is_action_pressed("move_left")):
+			motion += Vector2(-1, 0)
+		if (Input.is_action_pressed("move_right")):
+			motion += Vector2(1, 0)
+		
+		motion = motion.normalized()*MOTION_SPEED*delta
+		if motion == Vector2(0,0):
+			if (not timer_stop):
+				get_node("Timer").stop()
+				timer_stop = true
+			get_node("Legs").set_rot(get_node("Body").get_rot())
+			if playing_anim != "idle":
+				get_node("leg_anim").play("idle")
+				playing_anim = "idle"
+		else:
+			if (timer_stop):
+				get_node("Timer").start()
+				timer_stop = false
+			if playing_anim != "walk":
+				get_node("leg_anim").play("walk")
+				playing_anim = "walk"
+			get_node("Legs").set_rot(get_node("Legs").get_global_pos().angle_to_point(get_global_pos()+motion))
+		move(motion)
+		
+		var mousePos = get_node("cam").get_local_mouse_pos()
+		get_node("Body").set_rot(get_node("Body").get_pos().angle_to_point(mousePos))
+		if (Input.is_action_pressed("free_cam")):
+			get_node("cam").set_pos(mousePos)
+		else:
+			get_node("cam").set_pos(mousePos/5)
+		
+		if (get_parent().get_node("map").get_cellv(get_parent().get_node("map").world_to_map( get_pos())) == 1):
+			get_node("Legs").hide()
+			MOTION_SPEED = 50
+		else:
+			get_node("Legs").show()
+			MOTION_SPEED = 100
+		
+		if (Input.is_mouse_button_pressed(BUTTON_LEFT)):
+			if (weapon_type == 0):
+				if (not get_node("body_anim").is_playing()):
+					if (right_hand):
+						get_node("body_anim").play("blow_right")
+						right_hand = false
+					else:
+						get_node("body_anim").play("blow_left")
+						right_hand = true
+					if (get_node("Body/ray").is_colliding()):
+						print (get_node("Body/ray").get_collider().get_name())
+						if (get_node("Body/ray").get_collider().get_name() == "rocks"):
+							print ("extracted stone")
+							get_node("player").play("rock_hand_blow")
 	
-	if (Input.is_action_pressed("move_up")):
-		motion += Vector2(0, -1)
-	if (Input.is_action_pressed("move_down")):
-		motion += Vector2(0, 1)
-	if (Input.is_action_pressed("move_left")):
-		motion += Vector2(-1, 0)
-	if (Input.is_action_pressed("move_right")):
-		motion += Vector2(1, 0)
-	
-	motion = motion.normalized()*MOTION_SPEED*delta
-	if motion == Vector2(0,0):
-		if (not timer_stop):
-			get_node("Timer").stop()
-			timer_stop = true
-		get_node("Legs").set_rot(get_node("Body").get_rot())
-		if playing_anim != "idle":
-			get_node("leg_anim").play("idle")
-			playing_anim = "idle"
-	else:
-		if (timer_stop):
-			get_node("Timer").start()
-			timer_stop = false
-		if playing_anim != "walk":
-			get_node("leg_anim").play("walk")
-			playing_anim = "walk"
-		get_node("Legs").set_rot(get_node("Legs").get_global_pos().angle_to_point(get_global_pos()+motion))
-	move(motion)
-	
-	var mousePos = get_node("cam").get_local_mouse_pos()
-	get_node("Body").set_rot(get_node("Body").get_pos().angle_to_point(mousePos))
-	if (Input.is_action_pressed("free_cam")):
-		get_node("cam").set_pos(mousePos)
-	else:
-		get_node("cam").set_pos(mousePos/5)
-	
-	if (get_parent().get_node("map").get_cellv(get_parent().get_node("map").world_to_map( get_pos())) == 1):
-		get_node("Legs").hide()
-		MOTION_SPEED = 50
-	else:
-		get_node("Legs").show()
-		MOTION_SPEED = 100
-	
-	if (Input.is_mouse_button_pressed(BUTTON_LEFT)):
-		if (weapon_type == 0):
-			if (not get_node("body_anim").is_playing()):
-				if (right_hand):
-					get_node("body_anim").play("blow_right")
-					right_hand = false
-				else:
-					get_node("body_anim").play("blow_left")
-					right_hand = true
-				if (get_node("Body/ray").is_colliding()):
-					print (get_node("Body/ray").get_collider().get_name())
-					if (get_node("Body/ray").get_collider().get_name() == "rocks"):
-						print ("extracted stone")
-						get_node("player").play("rock_hand_blow")
+	if (!press_inv and Input.is_action_pressed("inv")):
+		if (get_parent().get_node("UI/Inventory").is_visible()):
+			get_parent().get_node("UI/Inventory").hide()
+			open_inv = false
+		else:
+			get_parent().get_node("UI/Inventory").show()
+			open_inv = true
+	press_inv = Input.is_action_pressed("inv")
 
 func _ready():
 	set_fixed_process(true)
-	get_parent().get_node("UI/Inventory").show()
 
 func _on_Timer_timeout():
 	if (get_parent().get_node("map").get_cellv(get_parent().get_node("map").world_to_map( get_pos())) == 1):
