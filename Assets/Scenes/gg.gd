@@ -53,7 +53,7 @@ func _fixed_process(delta):
 		else:
 			get_node("cam").set_pos(mousePos/5)
 		
-		if (get_parent().get_node("map").get_cellv(get_parent().get_node("map").world_to_map( get_pos())) == 1):
+		if (get_parent().get_node("Navigation2D/map").get_cellv(get_parent().get_node("Navigation2D/map").world_to_map( get_pos())) == 1):
 			get_node("Legs").hide()
 			MOTION_SPEED = 50
 		else:
@@ -88,7 +88,7 @@ func _ready():
 	set_fixed_process(true)
 
 func _on_Timer_timeout():
-	if (get_parent().get_node("map").get_cellv(get_parent().get_node("map").world_to_map( get_pos())) == 1):
+	if (get_parent().get_node("Navigation2D/map").get_cellv(get_parent().get_node("Navigation2D/map").world_to_map( get_pos())) == 1):
 		pass
 	else:
 		get_node("player").play("run_ground")
