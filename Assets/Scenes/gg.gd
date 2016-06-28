@@ -50,13 +50,13 @@ func _fixed_process(delta):
 		get_node("cam").set_pos(mousePos)
 	else:
 		get_node("cam").set_pos(mousePos/5)
-	
-	if (get_node("../Navigation2D/map").get_cellv(get_parent().get_node("Navigation2D/map").world_to_map( get_pos())) == 1):
-		get_node("Legs").hide()
-		MOTION_SPEED = 50
-	else:
-		get_node("Legs").show()
-		MOTION_SPEED = 100
+	if has_node("../Navigation2D/map"):
+		if (get_node("../Navigation2D/map").get_cellv(get_parent().get_node("Navigation2D/map").world_to_map( get_pos())) == 1):
+			get_node("Legs").hide()
+			MOTION_SPEED = 50
+		else:
+			get_node("Legs").show()
+			MOTION_SPEED = 100
 	
 	if (Input.is_mouse_button_pressed(BUTTON_LEFT)):
 		if (weapon_type == 0):
@@ -84,10 +84,11 @@ func _ready():
 	set_fixed_process(true)
 
 func _on_Timer_timeout():
-	if (get_node("../Navigation2D/map").get_cellv(get_node("../Navigation2D/map").world_to_map( get_pos())) == 1):
-		pass
-	else:
-		get_node("player").play("run_ground")
+	if has_node("../Navigation2D/map"):
+		if (get_node("../Navigation2D/map").get_cellv(get_node("../Navigation2D/map").world_to_map( get_pos())) == 1):
+			pass
+		else:
+			get_node("player").play("run_ground")
 
 func GO():
 	get_node("../genTimerZombie").queue_free()
