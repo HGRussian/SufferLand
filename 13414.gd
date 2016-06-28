@@ -1,34 +1,53 @@
 
 extends RigidBody2D
 
+onready var sprite = get_node("Body")
+onready var nav = get_node("../../Navigation2D")
+onready var player = get_node("../../player")
+onready var ray = get_node("Body/ray")
+var maxDamage = 2
+var damage = 0
+
 # points in the path
 var points = []
 
 func _ready():
 	set_fixed_process(true)
+	ray.add_exception_rid(get_rid())
 	randomize()
 
 func _fixed_process(delta):
 	# refresh the points in the path
-	points = get_node("../../Navigation2D").get_simple_path(get_global_pos(), get_node("../../player").get_global_pos(), false)
+	points = nav.get_simple_path(get_global_pos(), player.get_global_pos(), false)
 	# if the path has more than one point
 	if points.size() > 2:
 		var impulse = (points[2] - get_global_pos()).normalized() # direction of movement
 		apply_impulse(Vector2(), impulse * 1000 * delta)
-		var rot = get_node("Sprite").get_rot()+deg2rad(180)+get_node("Sprite").get_angle_to(points[2])
-		get_node("Sprite").set_rot(lerp(get_node("Sprite").get_rot(),rot,1))
+		var rot = sprite.get_rot()+deg2rad(180)+sprite.get_angle_to(points[2])
+		set_rot(rot)
 	elif points.size() > 1:
 		var impulse = (points[1] - get_global_pos()).normalized() # direction of movement
 		apply_impulse(Vector2(), impulse * 1000 * delta)
-		var rot = get_node("Sprite").get_rot()+deg2rad(180)+get_node("Sprite").get_angle_to(points[1])
-		get_node("Sprite").set_rot(lerp(get_node("Sprite").get_rot(),rot,1)) # we apply some impulse in the direction of mov
-	update() # we update the node so it has to draw it self again
-#	get_node("Sprite").look_at(points[1])
+		var rot = sprite.get_rot()+deg2rad(180)+sprite.get_angle_to(points[1])
+		set_rot(rot)
+	update()
+	if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))):
+		ray.get_collider().GO()
 	
+	
+	
+	if (damage >= maxDamage):
+		get_node("../..").currentZombie -=1
+		queue_free()
 
-func _draw():
-	# if there are points to draw
-	if points.size() > 1:
-		for p in range (0, points.size()-1):
-			if (points[p+1] != null):
-				draw_line(points[p] - get_global_pos(),points[p+1] - get_global_pos(), Color(1,0,0), 2) # we draw a circle (convert to global position first)
+func add_damage(value):
+	damage += value
+
+#	
+#
+#func _draw():
+#	# if there are points to draw
+#	if points.size() > 1:
+#		for p in range (0, points.size()-1):
+#			if (points[p+1] != null):
+#				draw_line(points[p] - get_global_pos(),points[p+1] - get_global_pos(), Color(1,0,0), 2) # we draw a circle (convert to global position first)
