@@ -32,7 +32,7 @@ func _fixed_process(delta):
 		var rot = sprite.get_rot()+deg2rad(180)+sprite.get_angle_to(points[1])
 		set_rot(rot)
 	update()
-	if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))):
+	if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))) and (not get_ded()):
 		ray.get_collider().GO()
 	
 	
