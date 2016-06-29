@@ -22,6 +22,10 @@ func _ready():
 
 func _process(delta):
 	if genStarted != true:
+		worldGen.size = levelSize[level]
+		worldGen.brush = levelBrush[level]
+		worldGen.trees = levelTrees[level]
+		worldGen.rocks = levelRocks[level]
 		worldGen.gen()
 		genStarted = true
 	progressBar.set_val(worldGen.get_progress())
