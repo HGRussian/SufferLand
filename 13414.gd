@@ -5,6 +5,7 @@ onready var sprite = get_node("Body")
 onready var nav = get_node("../../Navigation2D")
 onready var player = get_node("../../player")
 onready var ray = get_node("Body/ray")
+onready var anim = get_node("AnimationPlayer")
 var maxDamage = 2
 var damage = 0
 
@@ -37,12 +38,22 @@ func _fixed_process(delta):
 	
 	
 	if (damage >= maxDamage):
-		get_node("../..").currentZombie -=1
-		queue_free()
+		#get_node("../..").currentZombie -=1
+		if anim.get_current_animation() != "ded":
+			anim.play("ded")
+			set_rot(deg2rad(randi()%360))
+			get_node("CollisionShape2D").queue_free()
+		if sprite.get_opacity() == 0:
+			queue_free()
 
 func add_damage(value):
 	damage += value
 
+func get_ded():
+	if damage >= maxDamage:
+		return(true)
+	else:
+		return(false)
 #	
 #
 #func _draw():

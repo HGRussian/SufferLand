@@ -14,4 +14,12 @@ func _on_checker_body_enter( body ):
 		a.set_pos((get_pos()-body.get_pos()).normalized()*5)
 		a.set_rot(get_rot())
 		body.get_node("Body").add_child(a)
+		if not body.get_ded():
+			var b = load("res://Assets/Scenes/zombie_blood.tscn").instance()
+			b.set_pos((get_pos()-body.get_pos()).normalized()*5)
+			b.set_rot(get_rot())
+			b.set_emitting(true)
+			body.get_node("Body").add_child(b)
+		queue_free()
+	elif body.get_name() != "player":
 		queue_free()
