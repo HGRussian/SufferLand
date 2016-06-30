@@ -50,7 +50,6 @@ func level():
 		worldGen.rocks = levelRocks[0]
 		worldGen.gen()
 		genStarted = true
-	progressBar.set_val(worldGen.get_progress())
 	if genEnded != true:
 		if worldGen.get_step() == 6:
 			hide_splash()
@@ -60,6 +59,9 @@ func level():
 			print('cur_lvl: ',cur_n_lvl)
 				
 func _process(delta):
+	progressBar.set_val(worldGen.get_progress())
 	if nextLvl==true:
+		var genStarted = false
+		var genEnded = false
 		level()
 
