@@ -102,7 +102,7 @@ func _process(delta):
 		progress = 100
 		step+=1
 
-func gen():
+func gen(lvl):
 	clear()
 	randomize()
 	x = 0

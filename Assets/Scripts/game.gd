@@ -44,11 +44,11 @@ func level():
 	if genStarted != true:
 		cur_n_lvl = cur_n_lvl + 1
 		show_splash()
-		worldGen.size = levelSize[0]
-		worldGen.brush = levelBrush[0]
-		worldGen.trees = levelTrees[0]
-		worldGen.rocks = levelRocks[0]
-		worldGen.gen()
+		worldGen.size = levelSize[cur_n_lvl]
+		worldGen.brush = levelBrush[cur_n_lvl]
+		worldGen.trees = levelTrees[cur_n_lvl]
+		worldGen.rocks = levelRocks[cur_n_lvl]
+		worldGen.gen(cur_n_lvl)
 		genStarted = true
 	if genEnded != true:
 		if worldGen.get_step() == 6:
@@ -61,6 +61,7 @@ func level():
 func _process(delta):
 	progressBar.set_val(worldGen.get_progress())
 	if nextLvl==true:
+		gg.activ = false
 		var genStarted = false
 		var genEnded = false
 		level()
