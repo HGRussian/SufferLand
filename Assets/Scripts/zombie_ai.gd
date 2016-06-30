@@ -7,7 +7,7 @@ onready var ray = get_node("Body/ray")
 onready var anim = get_node("AnimationPlayer")
 var maxDamage = 2
 var damage = 0
-
+export var activ = false
 # points in the path
 var points = []
 
@@ -17,23 +17,24 @@ func _ready():
 	randomize()
 
 func _fixed_process(delta):
-	if not get_ded():
-		look_at(player.get_pos())
-		var impulse = (player.get_global_pos() - get_global_pos()).normalized() # direction of movement
-		apply_impulse(Vector2(), impulse * 1000 * delta)
-
-		if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))) and (not get_ded()):
-			ray.get_collider().GO()
+	if activ == true:
+		if not get_ded():
+			look_at(player.get_pos())
+			var impulse = (player.get_global_pos() - get_global_pos()).normalized() # direction of movement
+			apply_impulse(Vector2(), impulse * 1000 * delta)
 	
-	if (damage >= maxDamage):
-		#get_node("../..").currentZombie -=1
-		if anim.get_current_animation() != "ded":
-			anim.play("ded")
-			set_rot(deg2rad(randi()%360))
-			get_node("CollisionShape2D").queue_free()
-			#set_z(-9)
-		if sprite.get_opacity() == 0:
-			queue_free()
+			if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))) and (not get_ded()):
+				ray.get_collider().GO()
+		
+		if (damage >= maxDamage):
+			#get_node("../..").currentZombie -=1
+			if anim.get_current_animation() != "ded":
+				anim.play("ded")
+				set_rot(deg2rad(randi()%360))
+				get_node("CollisionShape2D").queue_free()
+				#set_z(-9)
+			if sprite.get_opacity() == 0:
+				queue_free()
 
 func add_damage(value):
 	damage += value
