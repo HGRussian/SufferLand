@@ -7,7 +7,7 @@ colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [node name="Particles2D" type="Particles2D"]
 
-z/z = -5
+z/z = -10
 config/amount = 1024
 config/lifetime = 100.0
 config/preprocess = 10.0

@@ -33,4 +33,3 @@ func _process(delta):
 		if worldGen.get_step() == 6:
 			transistion.play("end")
 			genEnded = true
-			

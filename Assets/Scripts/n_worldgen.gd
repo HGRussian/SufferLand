@@ -39,7 +39,7 @@ func _process(delta):
 					if randi()%8 == 1:
 						tiles_count+=1
 					set_cell(i,j,0)
-			progress = 85-size/tiles_count
+			progress = 50-size/tiles_count
 		else:
 			for i in range(-8,8):
 				for j in range(-8,8):
@@ -47,7 +47,7 @@ func _process(delta):
 			
 			step+=1
 	if step == 1:
-		progress = 90
+		progress = 60
 		for i in range(-size/16,size/16):
 			for j in range(-size/16,size/16):
 				var clean = 0
@@ -66,7 +66,7 @@ func _process(delta):
 							set_cell(m,n,0)
 		step+=1
 	if step == 2:
-		progress = 0
+		progress = 65
 		for i in range(-size/16,size/16):
 			for j in range(-size/16,size/16):
 				if get_cell(i,j) == -1:
@@ -77,7 +77,7 @@ func _process(delta):
 		get_node("../fog").pre_process(100)
 		step+=1
 	if step == 3:
-		progress = 0
+		progress = 70
 		for i in range(-size/16,size/16):
 			for j in range(-size/16,size/16):
 				if get_cell(i,j) == 0:
@@ -85,26 +85,22 @@ func _process(delta):
 						set_cell(i,j,1)
 		step+=1
 	if step == 4:
-		progress = 0
+		progress = 80
 		for i in range(-size/16,size/16):
 			for j in range(-size/16,size/16):
 				if get_cell(i,j) == 1:
 					var tree = load("res://Assets/Scenes/trees/"+str(randi()%8+1)+".scn").instance()
 					tree.set_pos(map_to_world(Vector2(i,j)))
-					tree.set_flip_h(randi()%2)
-					tree.set_flip_v(randi()%2)
 					get_node("../trees").add_child(tree)
 		step+=1
 	if step == 5:
-		progress = 0
+		progress = 100
 		for i in range(-size/16,size/16):
 			for j in range(-size/16,size/16):
 				if get_cell(i,j) == 0:
 					if randi()%rocks == 1:
 						get_node("../rocks").set_cell(i,j,randi()%25,randi()%2,randi()%2,randi()%2)
-		progress = 100
 		step+=1
-
 func gen():
 	clear()
 	randomize()

@@ -2,7 +2,6 @@
 extends RigidBody2D
 
 onready var sprite = get_node("Body")
-onready var nav = get_node("../../Navigation2D")
 onready var player = get_node("../../player")
 onready var ray = get_node("Body/ray")
 onready var anim = get_node("AnimationPlayer")
@@ -18,24 +17,13 @@ func _ready():
 	randomize()
 
 func _fixed_process(delta):
-	# refresh the points in the path
-	points = nav.get_simple_path(get_global_pos(), player.get_global_pos(), false)
-	# if the path has more than one point
-	if points.size() > 2:
-		var impulse = (points[2] - get_global_pos()).normalized() # direction of movement
+	if not get_ded():
+		look_at(player.get_pos())
+		var impulse = (player.get_global_pos() - get_global_pos()).normalized() # direction of movement
 		apply_impulse(Vector2(), impulse * 1000 * delta)
-		var rot = sprite.get_rot()+deg2rad(180)+sprite.get_angle_to(points[2])
-		set_rot(rot)
-	elif points.size() > 1:
-		var impulse = (points[1] - get_global_pos()).normalized() # direction of movement
-		apply_impulse(Vector2(), impulse * 1000 * delta)
-		var rot = sprite.get_rot()+deg2rad(180)+sprite.get_angle_to(points[1])
-		set_rot(rot)
-	update()
-	if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))) and (not get_ded()):
-		ray.get_collider().GO()
-	
-	
+
+		if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))) and (not get_ded()):
+			ray.get_collider().GO()
 	
 	if (damage >= maxDamage):
 		#get_node("../..").currentZombie -=1
@@ -43,6 +31,7 @@ func _fixed_process(delta):
 			anim.play("ded")
 			set_rot(deg2rad(randi()%360))
 			get_node("CollisionShape2D").queue_free()
+			#set_z(-9)
 		if sprite.get_opacity() == 0:
 			queue_free()
 
@@ -62,3 +51,4 @@ func get_ded():
 #		for p in range (0, points.size()-1):
 #			if (points[p+1] != null):
 #				draw_line(points[p] - get_global_pos(),points[p+1] - get_global_pos(), Color(1,0,0), 2) # we draw a circle (convert to global position first)
+
