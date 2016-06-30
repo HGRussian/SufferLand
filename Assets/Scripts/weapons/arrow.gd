@@ -1,10 +1,11 @@
 extends RigidBody2D
 
+
 func _on_Timer_timeout():
 	queue_free()
 
 func _on_checker_body_enter( body ):
-	if (str(body.get_name()).begins_with("zombie")):
+	if (str(body.get_name()).begins_with("npc")):
 		get_node("checker").queue_free()
 		if (body.has_method ("add_damage")):
 			body.add_damage(1)
