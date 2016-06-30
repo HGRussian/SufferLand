@@ -1,6 +1,6 @@
 
 extends KinematicBody2D
-
+export var activ = false
 var MOTION_SPEED = 100 # Pixels/second
 var playing_anim = "idle"
 var right_hand = true
@@ -68,13 +68,14 @@ func controller_freeCam(camera, center_obj):
 
 #############################################################
 func _fixed_process(delta):
-	var motion = Vector2()
-	motion = controller_gg(motion)
-	motion = motion.normalized()*MOTION_SPEED*delta
-	anim_walk(motion, get_node("Body"), get_node("Legs"), get_node("leg_anim"))
-	move(motion)
-	controller_freeCam(get_node("cam"), get_node("Body"))
-	shot(get_node(".."), arrow, get_node("Body"),get_node("Body/spawner"), get_node("Body/spawner/vector"), get_node("body_anim"), get_node("Body/spawner/arb_anim"), get_node("weaponSound"))
+	if activ == true:
+		var motion = Vector2()
+		motion = controller_gg(motion)
+		motion = motion.normalized()*MOTION_SPEED*delta
+		anim_walk(motion, get_node("Body"), get_node("Legs"), get_node("leg_anim"))
+		move(motion)
+		controller_freeCam(get_node("cam"), get_node("Body"))
+		shot(get_node(".."), arrow, get_node("Body"),get_node("Body/spawner"), get_node("Body/spawner/vector"), get_node("body_anim"), get_node("Body/spawner/arb_anim"), get_node("weaponSound"))
 
 func _ready():
 	randomize()

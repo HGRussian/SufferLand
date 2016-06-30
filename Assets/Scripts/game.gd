@@ -40,5 +40,6 @@ func _process(delta):
 	if genEnded != true:
 		if worldGen.get_step() == 6:
 			hide_splash()
+			gg.activ=true
 			genEnded = true
 			
