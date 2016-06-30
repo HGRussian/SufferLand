@@ -10,8 +10,6 @@ onready var lvlSplash = splash.get_node("cl/tf_nameLevel")
 onready var sp_noise = splash.get_node("sp_noise")
 onready var sp_gameSound = get_node("sp_gameSound")
 
-
-
 var cur_n_lvl = -1
 var nextLvl = false
 var levelSize = [2048]
