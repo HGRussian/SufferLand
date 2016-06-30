@@ -13,7 +13,7 @@ func blood(body):
 		body.get_node("Body").add_child(b)
 		if body.get_ded():
 			var b = load("res://Assets/Scenes/npc/zombie/zombie_dead_blood.tscn").instance()
-			b.set_pos(get_global_pos())
+			b.set_pos(body.get_global_pos())
 			b.set_emitting(true)
 			b.set_emission_half_extents(Vector2(randi()%8+4,randi()%8+4))
 			get_tree().get_current_scene().add_child(b)
