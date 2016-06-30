@@ -7,9 +7,13 @@ onready var gg = get_node("player")
 #UI
 onready var progressBar = loadScene.get_node("cl/tpb_load")
 onready var lvlSplash = loadScene.get_node("cl/tf_nameLevel")
-#onready var transistion = get_node("ui/transistion")
+onready var sp_noise = loadScene.get_node("sp_noise")
 
-
+func hide_splash():
+	progressBar.set_hidden(true)
+	lvlSplash.set_hidden(true)
+	sp_noise.stop()
+	
 var level = 0
 var levelSize = [2048]
 var levelBrush = [8]
@@ -35,8 +39,6 @@ func _process(delta):
 	progressBar.set_val(worldGen.get_progress())
 	if genEnded != true:
 		if worldGen.get_step() == 6:
-			progressBar.set_hidden(true)
-			lvlSplash.set_hidden(true)
-			#transistion.play("end")
+			hide_splash()
 			genEnded = true
 			

@@ -23,7 +23,7 @@ func anim_walk(motion, body, legs, anim):
 			playing_anim = "walk"
 		legs.set_rot(legs.get_global_pos().angle_to_point(get_global_pos()+motion))
 
-func shot(world, body, spawner, vector, body_anim, weapon_anim, weapon_sound):
+func shot(world, weapon, body, spawner, vector, body_anim, weapon_anim, weapon_sound):
 	if (Input.is_mouse_button_pressed(BUTTON_LEFT)):
 		if (weapon_type == 0):
 			if (not body_anim.is_playing()):
@@ -38,7 +38,7 @@ func shot(world, body, spawner, vector, body_anim, weapon_anim, weapon_sound):
 				weapon_sound.set_default_pitch_scale(1.1 + randf()/3.0)
 				weapon_sound.play("ArbaShot")
 				weapon_anim.play("shot")
-				var ar = arrow.instance()
+				var ar = weapon.instance()
 				ar.set_pos(spawner.get_global_pos())
 				ar.set_rot(body.get_rot())
 				ar.set_linear_velocity((spawner.get_global_pos()-vector.get_global_pos()).normalized()*-300)
@@ -74,7 +74,7 @@ func _fixed_process(delta):
 	anim_walk(motion, get_node("Body"), get_node("Legs"), get_node("leg_anim"))
 	move(motion)
 	controller_freeCam(get_node("cam"), get_node("Body"))
-	shot(get_node(".."), get_node("Body"),get_node("Body/spawner"), get_node("Body/spawner/vector"), get_node("body_anim"), get_node("Body/spawner/arb_anim"), get_node("weaponSound"))
+	shot(get_node(".."), arrow, get_node("Body"),get_node("Body/spawner"), get_node("Body/spawner/vector"), get_node("body_anim"), get_node("Body/spawner/arb_anim"), get_node("weaponSound"))
 
 func _ready():
 	randomize()
