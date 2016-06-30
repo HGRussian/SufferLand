@@ -3,7 +3,7 @@ extends Node2D
 onready var splash = load('Assets/Scenes/splash.scn').instance()
 onready var worldGen = get_node("worldGen/grnd") 
 onready var gg = get_node("player")
-onready var zombies = get_node("Zombie")
+onready var npc_node = get_node("NPC")
 #UI
 onready var progressBar = splash.get_node("cl/tpb_load")
 onready var lvlSplash = splash.get_node("cl/tf_nameLevel")
@@ -57,8 +57,8 @@ func level():
 		if worldGen.get_step() == 6:
 			hide_splash()
 			gg.activ = true
-			for zombie in zombies.get_children():
-				zombie.activ=true
+			for npc in npc_node.get_children():
+				npc.activ=true
 			genEnded = true	
 			nextLvl = false
 			print('cur_lvl: ',cur_n_lvl)
@@ -67,8 +67,8 @@ func _process(delta):
 	progressBar.set_val(worldGen.get_progress())
 	if nextLvl==true:
 		gg.activ = false
-		for zombie in zombies.get_children():
-			zombie.activ=false
+		for npc in npc_node.get_children():
+			npc.activ=false
 		var genStarted = false
 		var genEnded = false
 		level()

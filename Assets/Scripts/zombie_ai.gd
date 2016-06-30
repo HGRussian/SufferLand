@@ -11,6 +11,8 @@ export var activ = false
 # points in the path
 var points = []
 
+
+
 func _ready():
 	set_fixed_process(true)
 	ray.add_exception_rid(get_rid())
