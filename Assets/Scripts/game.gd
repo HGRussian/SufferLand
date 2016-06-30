@@ -21,8 +21,8 @@ func show_splash():
 	lvlSplash.set_hidden(false)
 	sp_noise.play()
 	sp_gameSound.stop()
-	
-var level = 0
+
+var cur_n_lvl = -1
 var nextLvl = false
 var levelSize = [2048]
 var levelBrush = [8]
@@ -42,6 +42,7 @@ func _ready():
 
 func level():
 	if genStarted != true:
+		cur_n_lvl = cur_n_lvl + 1
 		show_splash()
 		worldGen.size = levelSize[0]
 		worldGen.brush = levelBrush[0]
@@ -56,7 +57,9 @@ func level():
 			gg.activ = true
 			genEnded = true	
 			nextLvl = false
+			print('cur_lvl: ',cur_n_lvl)
 				
 func _process(delta):
 	if nextLvl==true:
 		level()
+
