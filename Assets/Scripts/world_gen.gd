@@ -103,6 +103,8 @@ func _process(delta):
 		step+=1
 
 func gen(lvl):
+	points = []
+	tiles_count = 0
 	clear()
 	get_node("../rocks").clear()
 	for tree in get_node("../trees").get_children():

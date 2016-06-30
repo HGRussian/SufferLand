@@ -56,6 +56,7 @@ func level():
 			worldGen.rocks = levelRocks[cur_n_lvl]
 			worldGen.gen(cur_n_lvl)
 			genStarted = true
+			
 		if genEnded != true:
 			if worldGen.get_step() == 6:
 				hide_splash()
