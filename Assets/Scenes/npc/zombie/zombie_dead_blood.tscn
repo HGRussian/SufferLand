@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Assets/ColorMap/fog.png" type="Texture" id=1]
 
 [sub_resource type="ColorRamp" id=1]
 
@@ -10,30 +12,30 @@ colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 z/z = -5
 config/amount = 1024
 config/lifetime = 100.0
-config/preprocess = 10.0
+config/time_scale = 2.0
+config/preprocess = 0.1
 config/emit_timeout = 100.0
 config/half_extents = Vector2( 8, 8 )
 config/local_space = false
+config/texture = ExtResource( 1 )
 params/direction = 0.0
-params/spread = 10.0
-params/linear_velocity = 0.0
+params/spread = 180.0
+params/linear_velocity = 50.0
 params/spin_velocity = 0.1
 params/orbit_velocity = 0.0
 params/gravity_direction = 0.0
-params/gravity_strength = 0.01
+params/gravity_strength = 0.0
 params/radial_accel = 0.0
 params/tangential_accel = 0.0
-params/damping = 0.0
+params/damping = 200.0
 params/initial_angle = 0.0
-params/initial_size = 1.0
-params/final_size = 2.0
+params/initial_size = 0.01
+params/final_size = 0.001
 params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 randomness/direction = 360.0
 randomness/spin_velocity = 1.0
-randomness/gravity_direction = 1.0
-randomness/initial_size = 1.0
 randomness/final_size = 1.0
 color/color_ramp = SubResource( 1 )
 
