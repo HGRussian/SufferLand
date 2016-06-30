@@ -12,7 +12,8 @@ onready var sp_noise = loadScene.get_node("sp_noise")
 func hide_splash():
 	progressBar.set_hidden(true)
 	lvlSplash.set_hidden(true)
-	sp_noise.stop()
+	sp_noise.set_stream(load("res://Assets/Sounds/HorrorMusic.ogg"))
+	sp_noise.play()
 	
 var level = 0
 var levelSize = [2048]
