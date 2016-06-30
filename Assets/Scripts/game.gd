@@ -47,26 +47,31 @@ func _ready():
 	set_process(true)
 
 func level():
-	if genStarted != true:
-		show_splash()
-		if cur_n_lvl <= levels-1:
+	if cur_n_lvl <= levels-1:
+		if genStarted != true:
+			show_splash()
 			worldGen.size = levelSize[cur_n_lvl]
 			worldGen.brush = levelBrush[cur_n_lvl]
 			worldGen.trees = levelTrees[cur_n_lvl]
 			worldGen.rocks = levelRocks[cur_n_lvl]
 			worldGen.gen(cur_n_lvl)
 			genStarted = true
-	if genEnded != true:
-		if worldGen.get_step() == 6:
-			hide_splash()
-			gg.activ = true
-			for npc in npc_node.get_children():
-				npc.activ=true
-			genEnded = true	
-			cur_n_lvl = cur_n_lvl + 1
-			print('cur_lvl: ',cur_n_lvl)
-			nextLvl = false
-			
+		if genEnded != true:
+			if worldGen.get_step() == 6:
+				hide_splash()
+				gg.activ = true
+				for npc in npc_node.get_children():
+					npc.activ=true
+				genEnded = true	
+				cur_n_lvl = cur_n_lvl + 1
+				print('cur_lvl: ',cur_n_lvl)
+				nextLvl = false
+	else:
+		nextLvl = false
+		gg.activ = true
+		for npc in npc_node.get_children():
+			npc.activ=true
+				
 func _process(delta):
 	progressBar.set_val(worldGen.get_progress())
 	if nextLvl==true:
