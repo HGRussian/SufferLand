@@ -23,6 +23,7 @@ func show_splash():
 	sp_gameSound.stop()
 	
 var level = 0
+var nextLevel = true
 var levelSize = [2048]
 var levelBrush = [8]
 var levelTrees = [32]
@@ -35,19 +36,23 @@ func _ready():
 	get_node(".").add_child(splash)
 	set_process(true)
 
-func _process(delta):
-	
+func level():
 	if genStarted != true:
-		worldGen.size = levelSize[level]
-		worldGen.brush = levelBrush[level]
-		worldGen.trees = levelTrees[level]
-		worldGen.rocks = levelRocks[level]
+		show_splash()
+		worldGen.size = levelSize[0]
+		worldGen.brush = levelBrush[0]
+		worldGen.trees = levelTrees[0]
+		worldGen.rocks = levelRocks[0]
 		worldGen.gen()
 		genStarted = true
 	progressBar.set_val(worldGen.get_progress())
 	if genEnded != true:
 		if worldGen.get_step() == 6:
 			hide_splash()
-			gg.activ=true
-			genEnded = true
-			
+			gg.activ = true
+			genEnded = true	
+			nextLevel = false
+				
+func _process(delta):
+	if nextLevel==true:
+		level()
