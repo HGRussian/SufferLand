@@ -104,6 +104,9 @@ func _process(delta):
 
 func gen(lvl):
 	clear()
+	get_node("../rocks").clear()
+	for tree in get_node("../trees").get_children():
+		get_node("../trees").remove_child(tree)
 	randomize()
 	x = 0
 	y = 0
