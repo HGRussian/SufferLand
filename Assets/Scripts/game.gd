@@ -1,6 +1,6 @@
 
 extends Node2D
-onready var splash = load('Assets/Scenes/load.scn').instance()
+onready var splash = load('Assets/Scenes/splash.scn').instance()
 onready var worldGen = get_node("worldGen/grnd") 
 onready var gg = get_node("player")
 
