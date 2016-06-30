@@ -9,8 +9,6 @@ var weapon_type = 1
 # 1 - ARBAlET
 var arrow = preload ("res://Assets/Scenes/weapons/arrow.scn")
 
-var timer_stop = true
-
 var shooting
 
 func _fixed_process(delta):
@@ -27,17 +25,11 @@ func _fixed_process(delta):
 	
 	motion = motion.normalized()*MOTION_SPEED*delta
 	if motion == Vector2(0,0):
-		if (not timer_stop):
-			get_node("Timer").stop()
-			timer_stop = true
 		get_node("Legs").set_rot(get_node("Body").get_rot())
 		if playing_anim != "idle":
 			get_node("leg_anim").play("idle")
 			playing_anim = "idle"
 	else:
-		if (timer_stop):
-			get_node("Timer").start()
-			timer_stop = false
 		if playing_anim != "walk":
 			get_node("leg_anim").play("walk")
 			playing_anim = "walk"
