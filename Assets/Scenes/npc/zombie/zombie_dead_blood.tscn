@@ -2,7 +2,7 @@
 
 [sub_resource type="ColorRamp" id=1]
 
-offsets = FloatArray( 0, 0.0224719, 0.898876, 1 )
+offsets = FloatArray( 0, 0.0224719, 0.353933, 1 )
 colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [node name="Particles2D" type="Particles2D"]
@@ -20,18 +20,19 @@ params/linear_velocity = 0.0
 params/spin_velocity = 0.1
 params/orbit_velocity = 0.0
 params/gravity_direction = 0.0
-params/gravity_strength = 0.0
+params/gravity_strength = 0.01
 params/radial_accel = 0.0
 params/tangential_accel = 0.0
 params/damping = 0.0
 params/initial_angle = 0.0
 params/initial_size = 1.0
-params/final_size = 3.0
+params/final_size = 2.0
 params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 randomness/direction = 360.0
 randomness/spin_velocity = 1.0
+randomness/gravity_direction = 1.0
 randomness/initial_size = 1.0
 randomness/final_size = 1.0
 color/color_ramp = SubResource( 1 )
