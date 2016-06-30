@@ -23,7 +23,7 @@ func show_splash():
 	sp_gameSound.stop()
 	
 var level = 0
-var nextLevel = true
+var nextLvl = false
 var levelSize = [2048]
 var levelBrush = [8]
 var levelTrees = [32]
@@ -32,7 +32,11 @@ var levelRocks = [32]
 var genStarted = false
 var genEnded = false
 
+func nextLevel():
+	nextLvl = true
+
 func _ready():
+	nextLevel()
 	get_node(".").add_child(splash)
 	set_process(true)
 
@@ -51,8 +55,8 @@ func level():
 			hide_splash()
 			gg.activ = true
 			genEnded = true	
-			nextLevel = false
+			nextLvl = false
 				
 func _process(delta):
-	if nextLevel==true:
+	if nextLvl==true:
 		level()
