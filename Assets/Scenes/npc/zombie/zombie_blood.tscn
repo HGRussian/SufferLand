@@ -8,12 +8,13 @@ colors = ColorArray( 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 [node name="Particles2D" type="Particles2D"]
 
 config/amount = 128
-config/lifetime = 0.2
+config/lifetime = 0.3
 config/emit_timeout = 0.1
 config/emitting = false
+config/local_space = false
 params/direction = 0.0
-params/spread = 30.0
-params/linear_velocity = 100.0
+params/spread = 360.0
+params/linear_velocity = 50.0
 params/spin_velocity = 10.0
 params/orbit_velocity = 0.0
 params/gravity_direction = 0.0

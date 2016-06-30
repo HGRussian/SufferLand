@@ -1,4 +1,3 @@
-
 extends TileMap
 
 export var size = 2048
@@ -39,7 +38,7 @@ func _process(delta):
 					if randi()%8 == 1:
 						tiles_count+=1
 					set_cell(i,j,0)
-			progress = 50-size/tiles_count
+			progress = 85-size/tiles_count
 		else:
 			for i in range(-8,8):
 				for j in range(-8,8):
@@ -47,9 +46,9 @@ func _process(delta):
 			
 			step+=1
 	if step == 1:
-		progress = 60
-		for i in range(-size/16,size/16):
-			for j in range(-size/16,size/16):
+		progress = 90
+		for i in range(-size/64,size/64):
+			for j in range(-size/64,size/64):
 				var clean = 0
 				if get_cell(i,j) == -1:
 					if get_cell(i+1,j) != -1:
@@ -66,9 +65,9 @@ func _process(delta):
 							set_cell(m,n,0)
 		step+=1
 	if step == 2:
-		progress = 65
-		for i in range(-size/16,size/16):
-			for j in range(-size/16,size/16):
+		progress = 0
+		for i in range(-size/64,size/64):
+			for j in range(-size/64,size/64):
 				if get_cell(i,j) == -1:
 					points.append(Vector2(i,j))
 		progress = 0.75
@@ -77,30 +76,32 @@ func _process(delta):
 		get_node("../fog").pre_process(100)
 		step+=1
 	if step == 3:
-		progress = 70
-		for i in range(-size/16,size/16):
-			for j in range(-size/16,size/16):
+		progress = 0
+		for i in range(-size/64,size/64):
+			for j in range(-size/64,size/64):
 				if get_cell(i,j) == 0:
 					if randi()%trees == 1:
 						set_cell(i,j,1)
 		step+=1
 	if step == 4:
-		progress = 80
-		for i in range(-size/16,size/16):
-			for j in range(-size/16,size/16):
+		progress = 0
+		for i in range(-size/64,size/64):
+			for j in range(-size/64,size/64):
 				if get_cell(i,j) == 1:
 					var tree = load("res://Assets/Scenes/trees/"+str(randi()%8+1)+".scn").instance()
 					tree.set_pos(map_to_world(Vector2(i,j)))
 					get_node("../trees").add_child(tree)
 		step+=1
 	if step == 5:
-		progress = 100
-		for i in range(-size/16,size/16):
-			for j in range(-size/16,size/16):
+		progress = 0
+		for i in range(-size/64,size/64):
+			for j in range(-size/64,size/64):
 				if get_cell(i,j) == 0:
 					if randi()%rocks == 1:
 						get_node("../rocks").set_cell(i,j,randi()%25,randi()%2,randi()%2,randi()%2)
+		progress = 100
 		step+=1
+
 func gen():
 	clear()
 	randomize()
