@@ -1,15 +1,19 @@
 
 extends Node2D
-func init_settings():
-	get_node('sp_noise').set_volume(get_parent().get_parent().sound_level)
-
-func _ready():
-	init_settings()
 		
 onready var game = get_parent()
 onready var npc_node = game.get_node('NPC')
 onready var gg = game.get_node("player")
 
+func init_settings():
+	if game.get_parent().sound==false:
+		get_node('sp_noise').stop()
+	else:
+		get_node('sp_noise').play()
+
+func _ready():
+	pass
+	
 func _on_bt_stopZombie_pressed():
 	for npc in npc_node.get_children():
 		npc.activ=false

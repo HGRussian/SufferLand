@@ -22,7 +22,10 @@ var genStarted = false
 var genEnded = false
 
 func init_settings():
-	get_node('sp_gameSound').set_volume(get_parent().sound_level)
+	if get_parent().sound==false:
+		sp_gameSound.stop()
+	else:
+		sp_gameSound.play()
 
 
 func nextLevel():
@@ -44,9 +47,9 @@ func show_splash():
 	lvlSplash.set_hidden(false)
 	sp_noise.play()
 	sp_gameSound.stop()
+	splash.init_settings()
 
 func _ready():
-	init_settings()
 	nextLevel()
 	get_node(".").add_child(splash)
 	set_process(true)
@@ -65,6 +68,7 @@ func level():
 		if genEnded != true:
 			if worldGen.get_step() == 6:
 				hide_splash()
+				init_settings()
 				gg.activ = true
 				for npc in npc_node.get_children():
 					npc.activ=true

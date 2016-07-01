@@ -40,12 +40,6 @@ func _on_bt_ok_pressed():
 	cc_for_tc.set_hidden(true)
 
 
-func _on_hsl_lvlMusic_value_changed( value ):
-	var lb_music = tc_settings.get_node('Sound/lb_music')
-	lb_music.set_text("Music: " + str(value))
-	get_parent().sound_level = value
-	print(get_parent().sound_level)
-
 #####################
 #HOVER
 #####################
@@ -69,4 +63,9 @@ func _on_bt_ok_mouse_enter():
 
 func _on_bt_cancel_mouse_enter():
 	sound.play("SLCLICK2")
+
+
+
+func _on_chkbt_statMusic_toggled( pressed ):
+	get_parent().sound = pressed
 
