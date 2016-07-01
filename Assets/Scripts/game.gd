@@ -63,6 +63,7 @@ func level():
 				gg.activ = true
 				for npc in npc_node.get_children():
 					npc.activ=true
+				npc_node.clear_blood()
 				genEnded = true	
 				cur_n_lvl = cur_n_lvl + 1
 				print('cur_lvl: ',cur_n_lvl)
