@@ -4,6 +4,7 @@ extends RigidBody2D
 onready var sprite = get_node("Body")
 onready var player = get_node("../../player")
 onready var ray = get_node("Body/ray")
+onready var visor = get_node("Body/visor")
 onready var anim = get_node("AnimationPlayer")
 var maxDamage = 2
 var damage = 0
@@ -21,11 +22,9 @@ func _ready():
 func _fixed_process(delta):
 	if activ == true:
 		if not get_ded():
-			look_at(player.get_pos())
-			var impulse = (player.get_global_pos() - get_global_pos()).normalized() # direction of movement
-			apply_impulse(Vector2(), impulse * 1000 * delta)
-	
-			if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))) and (not get_ded()):
+			var distance = get_pos().distance_to(player.get_global_pos())
+			visor.set_cast_to(Vector2(0,distance))
+			if ((ray.get_collider() != null) and (ray.get_collider().has_method("GO"))):
 				ray.get_collider().GO()
 		
 		if (damage >= maxDamage):
