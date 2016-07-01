@@ -1,9 +1,11 @@
 
 extends Node2D
+func init_settings():
+	get_node('sp_noise').set_volume(get_parent().get_parent().sound_level)
 
 func _ready():
-	pass
-
+	init_settings()
+		
 onready var game = get_parent()
 onready var npc_node = game.get_node('NPC')
 onready var gg = game.get_node("player")

@@ -2,8 +2,7 @@ extends Node2D
 onready var menu = load('Assets/Scenes/menu.scn').instance()
 onready var game = load('Assets/Scenes/game.scn').instance()
 
-class GameSettings:
-	var sound_level = 10
+export var sound_level = 3
 
 func playNewGame():
 	get_node('.').remove_child(menu)

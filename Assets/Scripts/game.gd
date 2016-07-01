@@ -21,6 +21,10 @@ var levelRocks = [32,64]
 var genStarted = false
 var genEnded = false
 
+func init_settings():
+	get_node('sp_gameSound').set_volume(get_parent().sound_level)
+
+
 func nextLevel():
 	genStarted = false
 	genEnded = false
@@ -42,6 +46,7 @@ func show_splash():
 	sp_gameSound.stop()
 
 func _ready():
+	init_settings()
 	nextLevel()
 	get_node(".").add_child(splash)
 	set_process(true)
