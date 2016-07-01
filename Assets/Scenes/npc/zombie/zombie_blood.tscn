@@ -30,12 +30,12 @@ params/radial_accel = 1.0
 params/tangential_accel = 1.0
 params/damping = 75.0
 params/initial_angle = 0.0
-params/initial_size = 0.02
+params/initial_size = 0.01
 params/final_size = 0.0
 params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
-randomness/initial_size = 1.0
+randomness/initial_size = 0.5
 randomness/final_size = 1.0
 color/color_ramp = SubResource( 1 )
 
