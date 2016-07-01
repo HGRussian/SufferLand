@@ -68,11 +68,8 @@ func controller_freeCam(camera, center_obj):
 		camera.set_pos(mousePos)
 	else:
 		camera.set_pos(mousePos/5)
-		
-##############################################################
 
-#############################################################
-func _fixed_process(delta):
+func controller_debCam():
 	if debug == true:
 		if Input.is_action_pressed("zoom+") and debCam.get_zoom().x > 0.1:
 			debCam.set_zoom(Vector2(debCam.get_zoom().x-0.001,debCam.get_zoom().y-0.001))
@@ -83,7 +80,13 @@ func _fixed_process(delta):
 	if debug == false:
 		if debCam.get_zoom().x != normalZoom:
 			debCam.set_zoom(Vector2(lerp(debCam.get_zoom().x,normalZoom,0.1),lerp(debCam.get_zoom().y,normalZoom,0.1)))
+			
+##############################################################
+
+#############################################################
+func _fixed_process(delta):
 	if activ == true:
+		controller_debCam()
 		var motion = Vector2()
 		motion = controller_gg(motion)
 		motion = motion.normalized()*MOTION_SPEED*delta

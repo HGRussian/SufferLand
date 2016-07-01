@@ -6,6 +6,7 @@ func _ready():
 
 onready var game = get_parent()
 onready var npc_node = game.get_node('NPC')
+onready var gg = game.get_node("player")
 
 func _on_bt_stopZombie_pressed():
 	for npc in npc_node.get_children():
@@ -20,7 +21,7 @@ func _on_bt_nextLvl_pressed():
 
 
 func _on_bt_debugMode_pressed():
-	if get_node("../player").debug == true:
-		get_node("../player").debug = false
+	if gg.debug == true:
+		gg.debug = false
 	else:
-		get_node("../player").debug = true
+		gg.debug = true
