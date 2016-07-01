@@ -9,6 +9,10 @@ var weapon_type = 1
 # 1 - ARBAlET
 var arrow = preload ("res://Assets/Scenes/weapons/arrow.scn")
 
+var debug = false
+onready var debCam = get_node("cam")
+var normalZoom = 0.5
+
 var shooting
 
 func anim_walk(motion, body, legs, anim):
@@ -69,6 +73,16 @@ func controller_freeCam(camera, center_obj):
 
 #############################################################
 func _fixed_process(delta):
+	if debug == true:
+		if Input.is_action_pressed("zoom+") and debCam.get_zoom().x > 0.1:
+			debCam.set_zoom(Vector2(debCam.get_zoom().x-0.001,debCam.get_zoom().y-0.001))
+		if Input.is_action_pressed("zoom-") and debCam.get_zoom().x < 15:
+			debCam.set_zoom(Vector2(debCam.get_zoom().x+0.001,debCam.get_zoom().y+0.001))
+		if Input.is_action_pressed("zoomReset"):
+			debCam.set_zoom(Vector2(lerp(debCam.get_zoom().x,normalZoom,0.1),lerp(debCam.get_zoom().y,normalZoom,0.1)))
+	if debug == false:
+		if debCam.get_zoom().x != normalZoom:
+			debCam.set_zoom(Vector2(lerp(debCam.get_zoom().x,normalZoom,0.1),lerp(debCam.get_zoom().y,normalZoom,0.1)))
 	if activ == true:
 		var motion = Vector2()
 		motion = controller_gg(motion)
@@ -84,4 +98,5 @@ func _ready():
 
 #GAME_OVER
 func GameOver():
-	pass
+	if debug != true:
+		pass

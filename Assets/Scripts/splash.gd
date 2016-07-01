@@ -17,3 +17,10 @@ func _on_bt_runZombie_pressed():
 
 func _on_bt_nextLvl_pressed():
 	game.nextLevel()
+
+
+func _on_bt_debugMode_pressed():
+	if get_node("../player").debug == true:
+		get_node("../player").debug = false
+	else:
+		get_node("../player").debug = true

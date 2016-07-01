@@ -13,10 +13,10 @@ onready var sp_gameSound = get_node("sp_gameSound")
 var cur_n_lvl = 0
 var nextLvl = false
 var levels = 2
-var levelSize = [2048,2048]
-var levelBrush = [8,8]
-var levelTrees = [32,32]
-var levelRocks = [32,32]
+var levelSize = [3072,2048]
+var levelBrush = [4,8]
+var levelTrees = [32,8]
+var levelRocks = [32,64]
 
 var genStarted = false
 var genEnded = false
