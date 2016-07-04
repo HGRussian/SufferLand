@@ -61,13 +61,15 @@ func controller_gg(motion):
 		motion += Vector2(1, 0)
 	return motion
 
-func controller_freeCam(camera, center_obj):
+func controller_freeCam(camera, center_obj, light):
 	var mousePos = camera.get_local_mouse_pos()
 	center_obj.set_rot(center_obj.get_pos().angle_to_point(mousePos))
+	light.set_rot(center_obj.get_pos().angle_to_point(mousePos))
 	if (Input.is_action_pressed("free_cam")):
 		camera.set_pos(mousePos)
 	else:
 		camera.set_pos(mousePos/5)
+	
 
 func controller_debCam():
 	if debug == true:
@@ -92,7 +94,7 @@ func _fixed_process(delta):
 		motion = motion.normalized()*MOTION_SPEED*delta
 		anim_walk(motion, get_node("Body"), get_node("Legs"), get_node("leg_anim"))
 		move(motion)
-		controller_freeCam(get_node("cam"), get_node("Body"))
+		controller_freeCam(get_node("cam"), get_node("Body"),get_node('Light'))
 		shot(get_node(".."), arrow, get_node("Body"),get_node("Body/spawner"), get_node("Body/spawner/vector"), get_node("body_anim"), get_node("Body/spawner/arb_anim"))
 
 func _ready():
