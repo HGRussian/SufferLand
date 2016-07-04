@@ -4,7 +4,8 @@ extends Node2D
 onready var game = get_parent()
 onready var npc_node = game.get_node('NPC')
 onready var gg = game.get_node("player")
-onready var cm = game.get_node('worldGen/cm')
+onready var world = game.get_node("worldGen")
+onready var cm = world.get_node('cm')
 
 func init_settings():
 	if not get_node('.').is_inside_tree():
@@ -46,3 +47,11 @@ func _on_bt_exmode_pressed():
 	else:
 		cm.set_hidden(false)
 		gg.get_node('Light').set_hidden(false)
+
+func _on_bt_fog_pressed():
+	for child in world.get_children():
+		if str(child.get_name()).begins_with("fog"):
+			if child.is_visible()==true:
+				child.set_hidden(true)
+			else:
+				child.set_hidden(false)
