@@ -81,24 +81,21 @@ func _process(delta):
 			for j in range(-size/64,size/64):
 				if get_cell(i,j) == 0:
 					if randi()%trees == 1:
-						set_cell(i,j,1)
+						var tree = load("res://Assets/Scenes/trees/"+str(randi()%8+1)+".scn").instance()
+						#var tree = load("res://Assets/Scenes/trees/"+str(1)+".scn").instance()
+						tree.set_pos(map_to_world(Vector2(i,j)))
+						get_node("../trees").add_child(tree)
+		step+=1
+					
 		step+=1
 	if step == 4:
 		progress = 0
 		for i in range(-size/64,size/64):
 			for j in range(-size/64,size/64):
-				if get_cell(i,j) == 1:
-					var tree = load("res://Assets/Scenes/trees/"+str(randi()%8+1)+".scn").instance()
-					tree.set_pos(map_to_world(Vector2(i,j)))
-					get_node("../trees").add_child(tree)
-		step+=1
-	if step == 5:
-		progress = 0
-		for i in range(-size/64,size/64):
-			for j in range(-size/64,size/64):
 				if get_cell(i,j) == 0:
 					if randi()%rocks == 1:
-						get_node("../rocks").set_cell(i,j,randi()%25,randi()%2,randi()%2,randi()%2)
+						pass
+						#get_node("../rocks").set_cell(i,j,randi()%25,randi()%2,randi()%2,randi()%2)
 		progress = 100
 		step+=1
 
@@ -109,6 +106,9 @@ func gen(lvl):
 	get_node("../rocks").clear()
 	for tree in get_node("../trees").get_children():
 		get_node("../trees").remove_child(tree)
+	for nav in get_node("..").get_children():
+		if nav.get_name().begins_with("nav"):
+			remove_child(nav)
 	randomize()
 	x = 0
 	y = 0

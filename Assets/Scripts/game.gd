@@ -67,7 +67,7 @@ func level():
 			genStarted = true
 			
 		if genEnded != true:
-			if worldGen.get_step() == 6:
+			if worldGen.get_step() == 5:
 				hide_splash()
 				init_settings()
 				gg.activ = true
