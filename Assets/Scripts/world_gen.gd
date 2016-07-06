@@ -86,16 +86,13 @@ func _process(delta):
 						tree.set_pos(map_to_world(Vector2(i,j)))
 						get_node("../trees").add_child(tree)
 		step+=1
-					
-		step+=1
 	if step == 4:
 		progress = 0
 		for i in range(-size/64,size/64):
 			for j in range(-size/64,size/64):
 				if get_cell(i,j) == 0:
 					if randi()%rocks == 1:
-						pass
-						#get_node("../rocks").set_cell(i,j,randi()%25,randi()%2,randi()%2,randi()%2)
+						get_node("../rocks").set_cell(i,j,randi()%25,randi()%2,randi()%2,randi()%2)
 		progress = 100
 		step+=1
 
