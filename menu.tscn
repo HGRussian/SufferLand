@@ -1,0 +1,341 @@
+[gd_scene load_steps=15 format=1]
+
+[ext_resource path="res://menu.gd" type="Script" id=1]
+[ext_resource path="res://Assets/ART/Particles/rain.png" type="Texture" id=2]
+[ext_resource path="res://Assets/ART/Particles/cloud1-sheet.png" type="Texture" id=3]
+[ext_resource path="res://test.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/MenuButtonHardFont.fnt" type="BitmapFont" id=5]
+[ext_resource path="res://Assets/ART/point.png" type="Texture" id=6]
+[ext_resource path="res://Assets/ART/Particles/cloud1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/ART/white.png" type="Texture" id=8]
+
+[sub_resource type="ColorRamp" id=5]
+
+offsets = FloatArray( 0, 0.157895, 0.853801, 1 )
+colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="CanvasItemShaderGraph" id=6]
+
+_code = { "fragment":"", "fragment_ofs":0, "light":"", "light_ofs":0, "vertex":"", "vertex_ofs":0 }
+_data = { "shaders":[ [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ], [ 0, 33, Vector2( 586, 53 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ] ] }
+
+[sub_resource type="CanvasItemMaterial" id=7]
+
+shader/shader = SubResource( 6 )
+shader/shading_mode = 0
+
+[sub_resource type="CanvasItemShader" id=2]
+
+_code = { "fragment":"uniform float size_x=0.008;\nuniform float size_y=0.008;\n\nvec2 uv = SCREEN_UV;\nuv-=mod(uv,vec2(size_x,size_y));\n\nCOLOR.rgb= texscreen(uv);\n", "fragment_ofs":0, "light":"", "light_ofs":0, "vertex":"", "vertex_ofs":0 }
+
+[sub_resource type="CanvasItemMaterial" id=3]
+
+shader/shader = SubResource( 2 )
+shader/shading_mode = 0
+shader_param/size_x = 0.005
+shader_param/size_y = 0.004
+
+[sub_resource type="Animation" id=4]
+
+resource/name = "New Anim"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("UI/ColorFrame:color")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.3, 0.5 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ] }
+tracks/1/type = "method"
+tracks/1/path = NodePath("UI/ColorFrame")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0.6 ), "transitions":FloatArray( 1 ), "values":[ { "args":[  ], "method":"queue_free" } ] }
+tracks/2/type = "method"
+tracks/2/path = NodePath("anim")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0.6 ), "transitions":FloatArray( 1 ), "values":[ { "args":[  ], "method":"queue_free()" } ] }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Node2D/Particles2D:config/time_scale")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = { "times":FloatArray( 0, 0.2, 0.3 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ 100.0, 100.0, 0.1 ] }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Node2D/Particles2D:config/emitting")
+tracks/4/interp = 1
+tracks/4/imported = false
+tracks/4/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
+
+[node name="Node" type="Node"]
+
+script/script = ExtResource( 1 )
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="rain" type="Particles2D" parent="Node2D"]
+
+transform/pos = Vector2( 73.3056, 43.9834 )
+transform/scale = Vector2( 5, 5 )
+config/amount = 128
+config/lifetime = 1.0
+config/half_extents = Vector2( 32, 32 )
+config/texture = ExtResource( 2 )
+config/h_frames = 4
+config/v_frames = 4
+params/direction = 0.0
+params/spread = 10.0
+params/linear_velocity = 0.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 0.15
+params/final_size = 0.15
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+color/color = Color( 1, 1, 1, 0.502732 )
+emission_points = Vector2Array( -0.84375, -0.0625, 0.53125, 0.3125, -0.5, -0.25, -0.25, -0.28125, -0.40625, -0.78125, 0.0625, -0.96875, 0.75, -0.5625, -0.90625, 0.65625, 0.625, -0.21875, -0.65625, 0.46875, 0.9375, -0.4375, 0.65625, -0.4375, -0.53125, -0.3125, -0.125, -0.875, 0.375, 0.34375, 0.46875, -0.875, 0.09375, -0.40625, -0.90625, 0.71875, 0.03125, 0.96875, 0.90625, -0.96875, -0.625, 0.96875, -0.5, -0.8125, 0.59375, -0.4375, -0.96875, -0.3125, 0.25, -0.21875, -0.6875, 0.09375, 0.40625, -0.59375, -0.125, -0.46875, 0.90625, 0.5, 0.21875, -0.125, -0.59375, 0.375, 0.25, -0.3125, 0.9375, 0.375, -0.53125, -0.71875, -0.375, -0.53125, -0.71875, 0.75, -0.90625, 0.875, -0.15625, -0.125, 0.5625, 0.5, 0.875, -0.15625, 0.71875, 0.53125, -0.4375, 0.75, 0.78125, -0.9375, -0.5, -0.40625, 0.90625, -0.25, -0.5, 0.21875, 0.5, -0.4375, 0.6875, -0.1875, 0.25, 0.8125, 0.8125, 0.21875, -0.28125, 0.25, 0.3125, 0.3125, 0.1875, -0.25, 0.25, 0.625, -0.8125, 0.4375, 0.21875, -0.6875, 0.65625, -0.375, 0.09375, 0.125, -0.0625, -0.375, -0.59375, 0.4375, 0.375, 0.96875, 0.71875, 0.5, 0.03125, 0.8125, -0.0625, -0.28125, 0.78125, 0.125, 0.28125, -0.78125, -0.8125, 0.9375, -0.34375, -0.03125, 0.03125, -0.78125, -0.0625, -0.1875, -0.15625, 0.46875, 0.96875, -0.25, 0.21875, -0.875, -0.25, -0.15625, -0.5625, -0.125, -0.03125, 0.5625, -0.8125, 0.3125, 0.96875, -0.59375, 0.90625, 0.34375, -0.3125, -0.125, -0.9375, 0.9375, -0.84375, -0.53125, 0.6875, 0.625, -0.125, 0.15625, -0.15625, 0.28125, -0.5, -0.625, -0.46875, -0.21875, 0.375, 0.71875, 0.875, 0.25, 0.59375, -0.75, 0.625, 0.46875, 0.84375, 0.5, -0.84375, -0.21875, 0.125, 0.15625, -0.90625, 0.34375, -0.96875, 0.875, -0.59375, -0.90625, -0.09375, 0.28125, 0.1875, 0.53125, -0.6875, -0.375, -0.09375, 0.65625, 0.125, -0.9375, 0, 0.21875, -0.9375, 0.75, 0.03125, -0.5, 0.125, 0.125, 0.90625, 0.03125, 0.3125, -0.65625, -0.75, -0.75, -1, -0.15625, 0.65625, -0.09375, 0.40625, 0.875, 0.09375, -0.1875, -0.96875, 0.625, -0.0625, 0.84375, -0.78125, 0.4375, -0.46875, -0.625, -0.0625, 0.34375, -0.375, 0, -0.625, 0.0625, -0.875, 0.03125, 0.125, 0.5625, -1, 0.96875, 0.3125, 0.40625, 0.5625, -0.5625, 0.46875, 0.875, -0.84375, -0.15625, 0.5625, -0.71875, -0.15625, 0.46875, 0.28125, 0.90625, 0.15625, -0.75, -0.21875, 0.5, -0.34375, 0.375, 0.78125, 0.875, -0.1875, 0.03125, 0.0625, 0.3125, -0.25, -0.4375, 0.8125, -0.0625, -0.90625, -0.53125, 0.875, 0.65625, 0.71875, 0.25, -0.375, 0.96875, 0.03125, 0.59375, 0.21875, -0.1875, 0.25, 0.875, -0.5625, 0.09375, 0.46875, -0.03125, 0.0625, -0.09375, 0.375, 0.375, -0.03125, 0.25, -0.09375, -0.21875, 0.125, -1, -0.25, -0.53125, 0.96875, 0.34375, 0.84375, 0.6875, 0.4375, -0.0625, 0.46875, 0.65625, -0.28125, -0.375, -0.625, 0.90625, -0.09375, -0.09375, 0.25, -0.75, 0.25, 0.9375, -0.21875, 0.5625, 0.0625, -0.15625, -0.125, -0.03125, 0.375, 0.3125, 0.53125, 0, 0.53125, 0.125, -0.6875, -0.25, 0.3125, -0.40625, -0.71875, 0.53125, -0.46875, -0.65625, 0.5625, -0.96875, 0.28125, 0.5625, 0.4375, -0.59375, 0.75, 0.875, -1, 0.6875, 0.8125, 0.65625, -0.125, -0.03125, 0, 0.59375, -0.3125, 0.625, 0.34375, 0.375, 0.96875, 0.25, -0.9375, -0.3125, -0.1875, 0.90625, -0.25, -0.4375, -0.78125, 0.96875, -0.1875, 0, -0.15625, -0.625, -0.59375, 0.125, 0.875, 0.96875, -0.03125, -0.15625, -0.28125, -0.1875, 0.09375, 0.5625, 0.90625, 0.9375, 0.53125, -0.53125, -0.125, -0.75, -0.875, -1, 0.8125, 0.3125, 0.90625, -0.53125, 0.375, 0.8125, -0.875, -0.90625, -0.875, -0.96875, 0.75, 0.15625, -0.46875, 0.0625, -0.59375, -0.59375, -0.75, -0.25, -0.90625, -0.21875, -0.3125, -0.53125, 0.03125, 0.53125, 0.78125, 0.1875, -0.28125, 0.90625, 0.46875, 0.75, -0.34375, 0.03125, -0.78125, -0.3125, -0.84375, 0.4375, 0.84375, -0.65625, -0.96875, 0.0625, 0.15625, -0.0625, -0.21875, 0.5, -0.40625, -0.40625, 0.03125, 0.46875, -0.03125, 0.1875, 0, 0.84375, -0.6875, -0.375, 0.09375, 0.15625, -0.03125, -0.6875, 0.625, 0.46875, -0.15625, -0.3125, 0.75, 0, -0.71875, 0.40625, -1, 0.1875, -0.0625, 0.78125, -0.96875, -0.75, 0.75, 0.34375, 0.8125, 0.8125, -0.84375, -0.09375, -0.90625, 0.65625, 0.5, -0.59375, -0.90625, -0.84375, -1, -0.125, 0.96875, -0.875, -0.125, -0.90625, -0.65625, 0.40625, -0.0625, 0.375, 0.375, -0.15625, -0.03125, 0.625, -0.90625, 0.1875, 0.96875, -0.6875, 0.46875, 0.84375, 0.375, 0.15625, -0.09375, -0.40625, -0.25, -0.46875, 0.5625, 0.375, 0.3125, 0.375, 0.9375, 0.75, -0.5625, 0.53125, -0.71875, 0.71875, 0.65625, -0.21875, -0.3125, 0.40625, -0.96875, 0.1875, 0.40625, 0.03125, 0.4375, -0.21875, 0.03125, 0.3125, 0.0625, 0.84375, -0.09375, -0.25, -0.78125, 0.34375, 0.5625, -0.4375, 0.5625, -0.65625, -0.59375, -0.25, -0.03125, 0.0625, 0.21875, 0.1875, 0.3125, -0.4375, -0.03125, -0.9375, 0.53125, 0.15625, 0.90625, 0.34375, 0.15625, 0.46875, 0.53125, 0.5, 0.96875, 0.15625, -0.96875, -0.40625, 0.40625, -0.90625, 0.8125, -0.96875, 0.875, 0.84375, 0.59375, 0.65625, 0.59375, -0.9375, -0.5, -0.0625, 0.5, -0.40625, -0.59375, 0.78125, -0.75, 0.28125, -0.28125, 0.5, 0.46875, 0.09375, -0.125, 0.0625, 0.65625, -0.15625, 0.1875, -0.71875, -0.28125, -0.09375, -0.8125, -0.5625, 0.71875, -0.0625, -0.40625, 0.6875, -0.8125, 0.125, -0.21875, -0.6875, -0.0625, 0.84375, -0.0625, -0.03125, 0.40625, -0.34375, 0.71875, 0.96875, 0.1875, 0, -0.09375, -0.5625, 0.625, -0.5625, 0.96875, 0.09375, 0.40625, 0.125, -0.96875, 0.03125, -0.53125, -0.71875, 0.4375, -0.71875, -0.875, 0.09375, -0.9375, 0.5625, 0.59375, 0.28125, -0.25, -0.03125, -0.40625, 0.8125, 0.03125, 0.8125, 0.78125, 0.03125, 0.34375, 0.71875, -0.15625, -0.40625, 0.28125, 0.1875, 0.875, 0.125, 0.5625, 0.5, -0.53125, 0.9375, 0.625, 0.03125, -0.65625, -1, -0.03125, -0.34375, -0.40625, 0, 0.96875, -0.8125, 0.625, 0.03125, 0.59375, 0.6875, -0.75, -0.96875, 0.03125, 0, -0.78125, 0.875, -0.375, 0.6875, 0.375, 0.5625, 0.8125, -0.21875, -0.59375, -0.4375, 0.8125, 0.53125, 0.25, 0.6875, 0.96875, 0.4375, -0.96875, -0.375, 0.65625, 0.6875, 0.5, -0.5625, 0.34375, -0.1875, 0.03125, 0.90625, 0.5, 0.28125, 0.40625, 0.96875, 0.1875, -0.375, 0.75, 0.8125, 0.40625, 0, -0.46875, -0.125, -0.5625, 0.75, -0.625, 0.125, 0.6875, 0.03125, -0.4375, -0.6875, 0.34375, -0.9375, 0.71875, 0.375, 0.3125, -0.65625, 0.6875, -0.90625, 0.75, -0.65625, -0.53125, 0.03125, -0.84375, -0.625, -0.71875, -0.59375, 0.9375, -0.9375, -0.78125, -0.40625, 0, -0.09375, 0.875, 0.53125, 0.875, -0.4375, 0.78125, -0.09375, -0.90625, -0.875, 0.46875, 0.90625, 0.3125, 0.9375, -0.375, -0.5625, -0.28125, -0.375, 0.15625, 0.53125, -0.71875, 0.5625, 0.6875, -0.84375, 0.8125, -0.4375, 0.1875, 0.15625, 0.875, 0.125, 0.1875, -0.90625, -0.3125, -1, -0.0625, 0.65625, 0.5, 0.375, -0.46875, -0.75, -0.53125, 0.6875, 0.59375, -0.28125, 0.1875, -0.8125, 0.90625, 0.40625, 0.59375, 0.46875, -0.78125, 0.09375, 0.21875, -0.3125, -0.09375, 0.1875, 0.09375, -0.8125, -0.46875, 0.625, -0.25, 0.34375, 0.65625, 0.09375, 0.125, 0.125, -0.25, 0.125, -0.625, 0.1875, 0.875, -0.28125, 0, -0.28125, -0.46875, 0.59375, 0.21875, 0.75, -0.90625, 0.5, 0.09375, 0.125, 0.46875, -0.84375, -0.65625, -0.5, 0.96875, -0.40625, -0.25, 0.5, -0.59375, 0.53125, -0.5, -0.375, 0.1875, 0.375, -0.21875, 0.0625, -0.5, 0.6875, -0.5625, -0.71875, -0.46875, 0.6875, -0.3125, -0.75, 0.5625, -0.6875, 0.90625, 0.5, -0.90625, -0.3125, 0.375, 0.21875, 0.25, -1, 0.8125, 0.875, 0.59375, 0.75, -0.15625, 0.09375, 0.96875, 0.84375, -0.53125, 0.3125, 0.5625, -0.3125, 0.6875, -0.53125, 0.3125, -0.1875, -0.46875, -0.625, 0.0625, 0.875, 0.75, -0.9375, -0.28125, -0.15625, -0.9375, -0.65625, 0.875, -0.71875, 0.65625, 0.75, 0.4375, 0.125, 0.59375, -0.65625, 0.125, -0.09375, -0.75, -0.21875, -0.625, -0.0625, 0.28125, -0.125, -0.03125, 0.03125, -0.0625, 0.78125, -0.96875, 0.0625, 0.9375, -0.96875, 0.15625, 0.625, 0.65625, -0.8125, -0.59375, -0.25, 0.9375, 0.90625, 0.28125, -0.375, 0.6875, 0.625, -0.40625, -0.625, -0.625, 0.71875, -0.625, -0.03125, -0.46875, -0.59375, 0.0625, -1, 0.75, 0.34375, 0.96875, -0.46875, 0.75, 0.5625, -0.375, 0.65625, 0.09375, 0.1875, 0.75, -0.5, 0.65625, 0.0625, -0.75, 0.125, 0.65625, -0.25, -0.09375, 0.84375, -0.96875, 0.1875, 0.96875, -0.71875, -0.625, -0.4375, 0.9375, -0.75, 0.4375, -0.875, -0.375, 0.4375, -0.875, 0.21875, 0.78125, 0.8125, 0.375, -0.9375, -0.3125, -0.46875, 0.46875, -0.53125, 0, -0.65625, -0.4375, -0.75, -0.96875, -0.40625, -0.46875, 0.625, 0.46875, -0.53125, -0.1875, 0.28125, -0.0625, -0.03125, 0, 0.90625, 0.09375, 0.65625, -0.75, -0.78125, -0.125, -0.59375, 0.40625, 0.28125, -0.21875, 0.8125, -0.40625, 0.4375, 0.15625, -1, -0.59375, -0.8125, 0.0625, -0.15625, 0.625, -0.125, -0.125, -0.0625, 0.75, -0.5, -0.96875, 0.875, 0.65625, 0.71875, 0.3125, 0.46875, -0.6875, -0.6875, 0.09375, -0.65625, 0.84375, -0.4375, -0.84375, -0.09375, 0.90625, -0.96875, 0.75, -0.9375, 0.84375, 0.53125 )
+
+[node name="Particles2D" type="Particles2D" parent="Node2D"]
+
+transform/pos = Vector2( 11.1589, 69.5713 )
+transform/scale = Vector2( 4, 4 )
+config/amount = 16
+config/lifetime = 5.0
+config/time_scale = 0.1
+config/half_extents = Vector2( 32, 32 )
+config/texture = ExtResource( 3 )
+config/h_frames = 4
+config/v_frames = 2
+params/direction = 90.0
+params/spread = 0.0
+params/linear_velocity = 10.0
+params/spin_velocity = 0.5
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 0.5
+params/final_size = 0.5
+params/hue_variation = 0.0
+params/anim_speed_scale = 0.0
+params/anim_initial_pos = 0.0
+randomness/direction = 1.0
+randomness/spread = 1.0
+randomness/spin_velocity = 1.0
+randomness/initial_size = 1.0
+randomness/final_size = 1.0
+randomness/anim_initial_pos = 1.0
+color/color = Color( 1, 1, 1, 0.612022 )
+color/color_ramp = SubResource( 5 )
+
+[node name="Sprite" parent="Node2D" instance=ExtResource( 4 )]
+
+visibility/visible = false
+margin/left = -68.0
+margin/top = -31.0
+margin/right = 287.0
+margin/bottom = 220.0
+
+[node name="UI" type="Control" parent="."]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 88.0
+
+[node name="logo" type="Label" parent="UI"]
+
+anchor/left = 3
+anchor/right = 3
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 8.0
+margin/top = 7.0
+margin/right = -263.0
+margin/bottom = 64.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0.372549, 0.341176, 0.309804, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
+text = "SufferLand"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="b_play" type="Label" parent="UI/logo"]
+
+anchor/left = 3
+anchor/right = 3
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 115.5
+margin/top = 66.0
+margin/right = -155.5
+margin/bottom = 123.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
+text = "Play"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="b_settings" type="Label" parent="UI/logo"]
+
+anchor/left = 3
+anchor/right = 3
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 115.5
+margin/top = 93.0
+margin/right = -155.5
+margin/bottom = 150.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
+text = "Settings"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="b_exit" type="Label" parent="UI/logo"]
+
+anchor/left = 3
+anchor/right = 3
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 115.5
+margin/top = 120.0
+margin/right = -155.5
+margin/bottom = 177.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
+text = "Exit"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="point" type="TextureFrame" parent="UI/logo"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 4.0
+margin/top = 71.0
+margin/right = 19.0
+margin/bottom = 88.0
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 5
+
+[node name="Sprite" type="Sprite" parent="UI/logo"]
+
+material/material = SubResource( 7 )
+transform/pos = Vector2( -70.9789, -60.4894 )
+texture = ExtResource( 7 )
+
+[node name="ColorFrame" type="ColorFrame" parent="UI"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = -120.0
+margin/bottom = -88.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="shader" type="TextureFrame" parent="."]
+
+visibility/visible = false
+material/material = SubResource( 3 )
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 2
+
+[node name="anim" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+"anims/New Anim" = SubResource( 4 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = "New Anim"
+
+[node name="Button" type="Button" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 97.0
+margin/right = 20.0
+margin/bottom = 117.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+
+

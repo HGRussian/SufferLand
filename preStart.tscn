@@ -1,0 +1,156 @@
+[gd_scene load_steps=2 format=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Control\n\nfunc _pressed(id):\n\tif id == 0:\n\t\tget_node(\"/root/tmp\")._resize(1.33)\n\telif id == 1:\n\t\tget_node(\"/root/tmp\")._resize(1.25)\n\telif id == 2:\n\t\tget_node(\"/root/tmp\")._resize(1.7)\n\telif id == 3:\n\t\tget_node(\"/root/tmp\")._resize(1.6)\n\telif id == 4:\n\t\tget_node(\"/root/tmp\")._resize(2.37)\n"
+
+[node name="Node2D" type="Control"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 160.0
+margin/bottom = 128.0
+script/script = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+
+anchor/left = 3
+anchor/right = 3
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -3.0
+margin/top = 11.0
+margin/right = -157.0
+margin/bottom = 25.0
+text = "Select your ratio:"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 6.0
+margin/top = 30.0
+margin/right = -144.0
+margin/bottom = -112.0
+scroll/horizontal = false
+scroll/vertical = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 56.0
+margin/bottom = 116.0
+alignment = 1
+
+[node name="Button3" type="Button" parent="ScrollContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 56.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "3 : 4"
+flat = false
+
+[node name="Button" type="Button" parent="ScrollContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 24.0
+margin/right = 56.0
+margin/bottom = 44.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "5 : 4"
+flat = false
+
+[node name="Button1" type="Button" parent="ScrollContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 48.0
+margin/right = 56.0
+margin/bottom = 68.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "16 : 9"
+flat = false
+
+[node name="Button2" type="Button" parent="ScrollContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 72.0
+margin/right = 56.0
+margin/bottom = 92.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "16 : 10"
+flat = false
+
+[node name="Button4" type="Button" parent="ScrollContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 96.0
+margin/right = 56.0
+margin/bottom = 116.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "21 : 9"
+flat = false
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Button3" to="." method="_pressed" binds= [ 0 ]]
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Button" to="." method="_pressed" binds= [ 1 ]]
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Button1" to="." method="_pressed" binds= [ 2 ]]
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Button2" to="." method="_pressed" binds= [ 3 ]]
+
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Button4" to="." method="_pressed" binds= [ 4 ]]
+
+
