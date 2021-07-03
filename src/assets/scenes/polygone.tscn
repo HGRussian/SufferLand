@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/objects/misc/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/art/ground/tree-sheet.png" type="Texture" id=2]
 [ext_resource path="res://assets/art/color_map/maxresdefault.jpg" type="Texture" id=3]
+[ext_resource path="res://assets/art/ground/rock_medium.png" type="Texture" id=4]
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
@@ -17,6 +18,65 @@ glow_blend_mode = 1
 modulate = Color( 0.0823529, 0.0823529, 0.0823529, 1 )
 scale = Vector2( 64, 64 )
 texture = ExtResource( 3 )
+
+[node name="rock_medium" type="Sprite" parent="."]
+position = Vector2( 3.22484, -67.9065 )
+texture = ExtResource( 4 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="rock_medium"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rock_medium/StaticBody2D2"]
+position = Vector2( 28.9435, 29.2166 )
+polygon = PoolVector2Array( -14.7435, 16.7005, 4.64317, 17.5197, 15.8383, 11.5125, 19.9341, -4.87061, 12.8347, -14.7005, 1.6396, -17.9771, -14.1974, -9.5125, -19.3854, 1.13654 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="rock_medium"]
+position = Vector2( -63.3481, -4.91494 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rock_medium/StaticBody2D"]
+position = Vector2( 30.3088, 28.9435 )
+polygon = PoolVector2Array( -23.7542, 13.697, 4.64317, 17.5197, 15.8383, 11.5125, 19.9341, -4.87061, 12.8347, -14.7005, 1.6396, -17.9771, -18.2932, -9.23942, -22.1159, 0.31741 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="rock_medium"]
+position = Vector2( -63.3481, -4.91494 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rock_medium/StaticBody2D3"]
+position = Vector2( -31.9471, 39.5926 )
+polygon = PoolVector2Array( -18.5662, 24.346, -1.36391, 25.4382, 9.28512, 19.7041, 15.5653, -12.243, 12.2887, -21.5267, 1.09355, -25.3495, -15.0165, -16.3388, -22.3889, 10.6934 )
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="rock_medium"]
+position = Vector2( -63.3481, -4.91494 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rock_medium/StaticBody2D4"]
+position = Vector2( -31.6741, -29.7627 )
+polygon = PoolVector2Array( -12.286, 22.4347, 7.10069, 21.8886, 15.2923, 10.6934, 10.9234, -1.5939, 9.28511, -20.9806, -6.27886, -23.7111, -22.1159, 0.863564, -23.2081, 15.6084 )
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="rock_medium"]
+position = Vector2( -63.3481, -4.91494 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rock_medium/StaticBody2D5"]
+position = Vector2( 36.589, -25.6669 )
+polygon = PoolVector2Array( -12.8321, 18.6119, 0.00131226, 15.3353, 7.91982, 10.6934, 10.9234, -1.5939, 5.7354, -11.6969, -4.09447, -15.2466, -16.6549, -2.95921, -19.3854, 12.8778 )
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="rock_medium"]
+position = Vector2( -63.3481, -4.91494 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rock_medium/StaticBody2D6"]
+position = Vector2( 106.217, -30.3088 )
+polygon = PoolVector2Array( -26.4848, 16.9736, -1.63705, 17.5197, 14.2, 15.8814, 16.6574, 0.0443573, 6.00841, -18.2501, -4.09447, -15.2466, -23.7543, -9.23941, -28.1231, 6.05151 )
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="rock_medium"]
+position = Vector2( -63.3481, -4.91494 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rock_medium/StaticBody2D7"]
+position = Vector2( 164.923, -28.1244 )
+polygon = PoolVector2Array( -26.4848, 16.9736, 7.64674, 15.8814, 20.2072, 6.59763, 18.5688, -1.04783, 0.547394, -12.7891, -10.9208, -12.243, -21.5698, -4.32446, -28.1231, 6.05151 )
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="rock_medium"]
+position = Vector2( -63.3481, -4.91494 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="rock_medium/StaticBody2D8"]
+position = Vector2( 163.012, 37.1351 )
+polygon = PoolVector2Array( -7.64417, 23.2538, 8.46591, 18.885, 16.6575, 6.59762, 11.4695, -6.50888, -2.18312, -17.704, -18.0201, -21.7998, -23.7542, -13.0621, -22.1159, 15.8814 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 
