@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/HorrorMusic.ogg-c7f981f1151931a3551adee051d1a375.oggstr"
+
+[deps]
+
+source_file="res://assets/sfx/HorrorMusic.ogg"
+dest_files=[ "res://.import/HorrorMusic.ogg-c7f981f1151931a3551adee051d1a375.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
