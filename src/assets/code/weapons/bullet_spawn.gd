@@ -1,6 +1,9 @@
 extends Position2D
 
-const SHOOT_DELAY = 0.12
+const SHOOT_DELAY = 0.15
+
+onready var flash_node = $fire_lights
+onready var anim = $anim
 
 var bullet = preload("res://assets/objects/weapons/bullet.tscn")
 
@@ -17,3 +20,6 @@ func _process(delta: float) -> void:
 		b.global_position = global_position
 		b.dir = Vector2(0, -1).rotated(global_rotation + deg2rad(rand_range(-5,5)))
 		get_tree().root.add_child(b)
+		flash_node.frame = randi() % 4
+		anim.stop()
+		anim.play("shoot")

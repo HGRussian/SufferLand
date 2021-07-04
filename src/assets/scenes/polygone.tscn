@@ -1,16 +1,23 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/objects/misc/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/art/ground/tree-sheet.png" type="Texture" id=2]
 [ext_resource path="res://assets/art/color_map/maxresdefault.jpg" type="Texture" id=3]
 [ext_resource path="res://assets/art/ground/rock_medium.png" type="Texture" id=4]
+[ext_resource path="res://assets/code/camera/camera_follower.gd" type="Script" id=5]
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
 tonemap_mode = 1
 glow_enabled = true
+glow_levels/4 = true
+glow_levels/5 = false
 glow_bloom = 0.1
 glow_blend_mode = 1
+glow_hdr_threshold = 4.0
+glow_hdr_luminance_cap = 1.0
+glow_hdr_scale = 4.0
+glow_bicubic_upscale = true
 
 [node name="polygone" type="Node2D"]
 
@@ -83,6 +90,7 @@ polygon = PoolVector2Array( -7.64417, 23.2538, 8.46591, 18.885, 16.6575, 6.59762
 [node name="cam" type="Camera2D" parent="Player"]
 current = true
 zoom = Vector2( 0.5, 0.5 )
+script = ExtResource( 5 )
 
 [node name="tree-sheet" type="Sprite" parent="."]
 modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
