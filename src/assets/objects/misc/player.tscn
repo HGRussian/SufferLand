@@ -117,9 +117,10 @@ frame = 7
 position = Vector2( 3.08025, -8.0771 )
 
 [node name="flashlight" type="Light2D" parent="body"]
-position = Vector2( 0, -2 )
+position = Vector2( 3.08025, -8.0771 )
 texture = ExtResource( 5 )
 offset = Vector2( 0, -128 )
+energy = 2.0
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/player_idle = SubResource( 2 )
