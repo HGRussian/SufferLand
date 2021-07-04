@@ -28,6 +28,7 @@ func _process(delta: float) -> void:
 	
 	update_rotation()
 	update_anim()
+	update_crosshair()
 
 func get_move_dir() -> Vector2:
 	var dir = Vector2()
@@ -59,6 +60,10 @@ func update_anim() -> void:
 			play_anim("player_walk")
 	else:
 		play_anim("player_idle")
+
+func update_crosshair() -> void:
+	var angle = global_position.angle_to_point(get_global_mouse_position())
+	get_tree().current_scene.ui_node.get_node("crosshair").rotation = angle + deg2rad(-90)
 
 func play_anim(anim_name: String) -> void:
 	if anim.current_animation != anim_name:
