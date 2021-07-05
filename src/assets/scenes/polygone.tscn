@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/objects/misc/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/art/ground/tree-sheet.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://assets/code/core/game_logic.gd" type="Script" id=8]
 [ext_resource path="res://assets/objects/npc/zombie.tscn" type="PackedScene" id=9]
 [ext_resource path="res://assets/art/color_map/white.png" type="Texture" id=10]
+[ext_resource path="res://assets/art/ground/road.png" type="Texture" id=11]
+[ext_resource path="res://assets/art/props/post.png" type="Texture" id=12]
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
@@ -72,7 +74,7 @@ extents = Vector2( 42.4225, 43.6938 )
 script = ExtResource( 8 )
 
 [node name="maxresdefault" type="Sprite" parent="."]
-modulate = Color( 0.0823529, 0.0823529, 0.0823529, 1 )
+self_modulate = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
 scale = Vector2( 64, 64 )
 texture = ExtResource( 3 )
 
@@ -242,6 +244,127 @@ texture = ExtResource( 10 )
 
 [node name="col" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 3 )
+
+[node name="Line2D" type="Line2D" parent="."]
+modulate = Color( 0.235294, 0.235294, 0.235294, 1 )
+points = PoolVector2Array( 745.176, 237.706, 246.436, 197.925, 144.036, 173.614, 36.4792, 152.986, -106.439, 158.88, -217.68, 244.336, -320.816, 256.86, -461.524, 231.076, -650.055, 123.405 )
+width = 96.0
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 11 )
+texture_mode = 1
+joint_mode = 1
+sharp_limit = 8.0
+antialiased = true
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2( 6.33264, 238.123 )
+z_index = 60
+
+[node name="Line2D" type="Line2D" parent="Node2D"]
+position = Vector2( -2.56079, 20.9985 )
+rotation = 0.078953
+points = PoolVector2Array( 2.06451, -11.0312, 109.281, 7.40668 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D5" type="Line2D" parent="Node2D"]
+position = Vector2( -228.375, -23.5765 )
+rotation = 0.078953
+points = PoolVector2Array( 4.83467, -58.0916, 111.369, 8.68361 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D6" type="Line2D" parent="Node2D"]
+position = Vector2( -234.733, -2.74841 )
+rotation = 0.078953
+points = PoolVector2Array( -0.212555, -59.4957, 112.001, 9.20547 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D7" type="Line2D" parent="Node2D"]
+position = Vector2( -342.046, -97.524 )
+rotation = 0.078953
+points = PoolVector2Array( -4.37024, -41.877, 120.224, 4.82248 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D8" type="Line2D" parent="Node2D"]
+position = Vector2( -348.404, -76.6959 )
+rotation = 0.078953
+points = PoolVector2Array( -3.78583, -41.293, 115.162, 3.05431 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D9" type="Line2D" parent="Node2D"]
+position = Vector2( -492.385, -125.025 )
+rotation = 0.078953
+points = PoolVector2Array( -15.9593, -42.5716, 143.702, -27.3855 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D10" type="Line2D" parent="Node2D"]
+position = Vector2( -498.743, -104.197 )
+rotation = 0.078953
+points = PoolVector2Array( -9.50595, -41.6176, 144.667, -26.786 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D2" type="Line2D" parent="Node2D"]
+position = Vector2( -2.56079, 20.9985 )
+rotation = 0.078953
+points = PoolVector2Array( 2.08012, 11.0779, 102.531, 28.3864 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D3" type="Line2D" parent="Node2D"]
+position = Vector2( -2.56079, 20.9985 )
+rotation = 0.078953
+points = PoolVector2Array( -2.0678, 10.9536, -117.112, 4.65448 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D4" type="Line2D" parent="Node2D"]
+position = Vector2( -2.56079, 20.9985 )
+rotation = 0.078953
+points = PoolVector2Array( -2.17473, -11.0808, -113.244, -17.0206 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="post" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( -2.56079, 20.9985 )
+rotation = 0.078953
+texture = ExtResource( 12 )
+
+[node name="post4" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( 103.456, 47.6307 )
+rotation = 0.379795
+texture = ExtResource( 12 )
+
+[node name="post2" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( -118.821, 5.12157 )
+rotation = 0.257949
+texture = ExtResource( 12 )
+
+[node name="post3" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( -226.374, -72.7264 )
+rotation = 0.54082
+texture = ExtResource( 12 )
+
+[node name="post5" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( -347.755, -129.576 )
+rotation = 0.256436
+texture = ExtResource( 12 )
+
+[node name="post6" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( -507.036, -157.745 )
+rotation = -0.0115794
+texture = ExtResource( 12 )
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="Area2D" method="_on_Area2D_body_exited"]
