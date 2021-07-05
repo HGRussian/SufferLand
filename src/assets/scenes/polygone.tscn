@@ -38,6 +38,7 @@ texture = ExtResource( 3 )
 
 [node name="rock_medium" type="Sprite" parent="."]
 position = Vector2( 3.22484, -67.9065 )
+z_index = 2
 texture = ExtResource( 4 )
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="rock_medium"]
@@ -96,15 +97,16 @@ position = Vector2( 163.012, 37.1351 )
 polygon = PoolVector2Array( -7.64417, 23.2538, 8.46591, 18.885, 16.6575, 6.59762, 11.4695, -6.50888, -2.18312, -17.704, -18.0201, -21.7998, -23.7542, -13.0621, -22.1159, 15.8814 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+z_index = 2
 
 [node name="cam" type="Camera2D" parent="Player"]
 current = true
-zoom = Vector2( 0.5, 0.5 )
 script = ExtResource( 5 )
 
 [node name="tree-sheet" type="Sprite" parent="."]
 modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
 position = Vector2( 39.1017, 32.0858 )
+z_index = 100
 texture = ExtResource( 2 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -153,3 +155,36 @@ position = Vector2( -106.248, 68.8084 )
 
 [node name="zombie6" parent="." instance=ExtResource( 9 )]
 position = Vector2( 36.428, 132.557 )
+
+[node name="zombie7" parent="." instance=ExtResource( 9 )]
+position = Vector2( 120.415, 193.27 )
+
+[node name="zombie8" parent="." instance=ExtResource( 9 )]
+position = Vector2( -108.272, 167.973 )
+
+[node name="zombie9" parent="." instance=ExtResource( 9 )]
+position = Vector2( -248.924, 158.866 )
+
+[node name="zombie10" parent="." instance=ExtResource( 9 )]
+position = Vector2( -67.7964, 135.593 )
+
+[node name="zombie11" parent="." instance=ExtResource( 9 )]
+position = Vector2( -249.936, 88.034 )
+
+[node name="zombie12" parent="." instance=ExtResource( 9 )]
+position = Vector2( -128.51, 263.091 )
+
+[node name="zombie13" parent="." instance=ExtResource( 9 )]
+position = Vector2( 54.6421, 226.663 )
+
+[node name="zombie14" parent="." instance=ExtResource( 9 )]
+position = Vector2( -195.294, 200.354 )
+
+[node name="zombie15" parent="." instance=ExtResource( 9 )]
+position = Vector2( -41.4872, 246.9 )
+
+[node name="zombie16" parent="." instance=ExtResource( 9 )]
+position = Vector2( 5.05957, 199.342 )
+
+[node name="zombie17" parent="." instance=ExtResource( 9 )]
+position = Vector2( -186.395, 125.132 )

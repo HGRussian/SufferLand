@@ -20,6 +20,8 @@ func _physics_process(delta: float) -> void:
 	var col = move_and_collide(dir.normalized()*SPEED*delta)
 	
 	if col:
+		if col.collider.has_method("damage"):
+			col.collider.damage(1, dir.normalized())
 		update()
 		set_physics_process(false)
 		yield(get_tree(), "idle_frame")

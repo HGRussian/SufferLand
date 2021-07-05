@@ -102,13 +102,13 @@ script = ExtResource( 3 )
 shape = SubResource( 1 )
 
 [node name="legs" type="Sprite" parent="."]
-light_mask = 2
+light_mask = 514
 texture = ExtResource( 2 )
 hframes = 12
 frame = 1
 
 [node name="body" type="Sprite" parent="."]
-light_mask = 2
+light_mask = 514
 texture = ExtResource( 1 )
 hframes = 8
 frame = 7
