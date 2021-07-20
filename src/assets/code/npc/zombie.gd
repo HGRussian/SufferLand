@@ -41,7 +41,7 @@ func _physics_process(delta: float) -> void:
 #	_dir = Vector2(0, -1).rotated(rot)
 	_dir = _dir.linear_interpolate(Vector2(0, -1).rotated(rot), 3 * delta)
 	
-	move_and_slide(_dir.normalized() * 128)
+	move_and_slide(_dir.normalized() * 96)
 	$body.look_at(global_position + _dir)
 	$body.rotation += deg2rad(90)
 	update()
