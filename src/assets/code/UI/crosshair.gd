@@ -1,6 +1,7 @@
 extends Node2D
 
 var player
+var primary_ammo_progress
 
 
 func _enter_tree() -> void:
@@ -10,6 +11,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	player = $"/root/_InGame".pick_node("Player")
+	primary_ammo_progress = $primary_ammo as TextureProgress
 
 
 func _process(delta: float) -> void:
@@ -23,11 +25,14 @@ func _process(delta: float) -> void:
 	update()
 
 
-func set_primary_ammo(current_ammo, max_ammo, reloading = false) -> void:
-	var t = (get_node("primary_ammo") as TextureProgress)
-	t.max_value = max_ammo
-	t.value = current_ammo
-	t.tint_progress = Color(1,1,1, 0.25 if reloading else 1)
+func set_primary_ammo(current_ammo, max_ammo) -> void:
+	primary_ammo_progress.max_value = max_ammo
+	primary_ammo_progress.value = current_ammo
+	primary_ammo_progress.tint_progress = Color(1,1,1,1)
+
+
+func reloading_primary() -> void:
+	primary_ammo_progress.tint_progress = Color(1,1,1,0.25)
 
 
 func _draw() -> void:

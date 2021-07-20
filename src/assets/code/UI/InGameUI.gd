@@ -13,5 +13,5 @@ func set_primary_ammo(current_ammo, max_ammo) -> void:
 
 
 func reloading_primary(max_ammo) -> void:
-	crosshair.set_primary_ammo(max_ammo, max_ammo, true)
+	crosshair.reloading_primary()
 	primary_gun_info.text = "../%02d" % max_ammo
