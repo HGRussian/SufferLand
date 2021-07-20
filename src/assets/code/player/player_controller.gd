@@ -14,9 +14,9 @@ var move_vec = Vector2()
 
 var crosshair
 
+
 func _enter_tree() -> void:
 	$"/root/_InGame".register_node("Player", self)
-	
 
 
 func _ready() -> void:

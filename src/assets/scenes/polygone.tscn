@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://assets/objects/misc/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/art/ground/tree-sheet.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://assets/art/color_map/white.png" type="Texture" id=10]
 [ext_resource path="res://assets/art/ground/road.png" type="Texture" id=11]
 [ext_resource path="res://assets/art/props/post.png" type="Texture" id=12]
+[ext_resource path="res://assets/fonts/gohufont_11.tres" type="DynamicFont" id=13]
 [ext_resource path="res://assets/code/UI/InGameUI.gd" type="Script" id=14]
 [ext_resource path="res://assets/code/world/enemy_nav.gd" type="Script" id=15]
 
@@ -180,6 +181,59 @@ texture_progress = ExtResource( 7 )
 fill_mode = 4
 radial_initial_angle = 300.0
 radial_fill_degrees = 120.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gun_info1" type="Label" parent="UI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -85.9917
+margin_top = -48.4547
+margin_right = -15.9917
+margin_bottom = -34.4547
+custom_fonts/font = ExtResource( 13 )
+text = "30/inf."
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gun_info2" type="Label" parent="UI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -85.9917
+margin_top = -36.3776
+margin_right = -15.9917
+margin_bottom = -22.3776
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0.501961, 0.501961, 0.501961, 1 )
+text = "00/00"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gun_info3" type="Label" parent="UI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -85.9917
+margin_top = -24.5629
+margin_right = -15.9917
+margin_bottom = -10.5629
+custom_fonts/font = ExtResource( 13 )
+custom_colors/font_color = Color( 0.501961, 0.501961, 0.501961, 1 )
+text = "none"
+align = 2
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -23,5 +23,12 @@ func _process(delta: float) -> void:
 	update()
 
 
+func set_primary_ammo(current_ammo, max_ammo, reloading = false) -> void:
+	var t = (get_node("primary_ammo") as TextureProgress)
+	t.max_value = max_ammo
+	t.value = current_ammo
+	t.tint_progress = Color(1,1,1, 0.25 if reloading else 1)
+
+
 func _draw() -> void:
 	draw_circle(Vector2(), 2.3, Color.white)

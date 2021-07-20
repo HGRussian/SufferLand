@@ -6,7 +6,7 @@ const RELOAD_TIME = 2
 
 onready var flash_node = $fire_lights
 onready var anim = $anim
-var crosshair
+var ui
 
 var bullet = preload("res://assets/objects/weapons/bullet.tscn")
 
@@ -20,14 +20,13 @@ func _ready() -> void:
 	current_ammo = MAX_AMMO
 	yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
-	crosshair = $"/root/_InGame".pick_node("Crosshair")
+	ui = $"/root/_InGame".pick_node("UI")
+	update_ui()
 
 func _process(delta: float) -> void:
 	# check ammo
 	if current_ammo <= 0 and not is_reloading:
-		current_ammo = 0
-		is_reloading = true
-		current_reload_time = 0
+		reload()
 		return
 	
 	# reloading
@@ -53,15 +52,22 @@ func _process(delta: float) -> void:
 		anim.play("shoot")
 		current_ammo -= 1
 		update_ui()
-	elif not is_reloading and Input.is_action_just_pressed("reload"):
-		is_reloading = true
-		current_reload_time = 0
+	elif not is_reloading and Input.is_action_just_pressed("reload") and current_ammo < MAX_AMMO:
+		reload()
+
+
+func reload() -> void:
+	current_ammo = 0
+	is_reloading = true
+	current_reload_time = 0
+	update_ui()
 
 
 func update_ui() -> void:
-	if crosshair == null:
+	if ui == null:
 		return
-	
-	(crosshair.get_node("primary_ammo") as TextureProgress).max_value = MAX_AMMO
-	(crosshair.get_node("primary_ammo") as TextureProgress).value = current_ammo
+	if is_reloading:
+		ui.reloading_primary(MAX_AMMO)
+	else:
+		ui.set_primary_ammo(current_ammo, MAX_AMMO)
 	
