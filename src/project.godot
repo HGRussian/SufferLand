@@ -24,6 +24,10 @@ config/name="SufferLand"
 run/main_scene="res://assets/scenes/polygone.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+_InGame="*res://assets/code/global/g_InGame.gd"
+
 [display]
 
 window/stretch/shrink=2.0
@@ -72,5 +76,6 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 environment/default_clear_color=Color( 0.0823529, 0.0823529, 0.0823529, 1 )
 environment/default_environment="res://default_env.tres"

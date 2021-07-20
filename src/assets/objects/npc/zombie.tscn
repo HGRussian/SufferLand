@@ -55,4 +55,5 @@ anims/die = SubResource( 1 )
 anims/walk = SubResource( 2 )
 
 [node name="col" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 3 )

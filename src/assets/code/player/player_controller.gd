@@ -12,12 +12,21 @@ var is_move = false
 var is_runing = false
 var move_vec = Vector2()
 
+var crosshair
+
+func _enter_tree() -> void:
+	$"/root/_InGame".register_node("Player", self)
+	
+
+
 func _ready() -> void:
-	pass # Replace with function body.
+	crosshair = $"/root/_InGame".pick_node("Crosshair")
+
 
 func _input(event) -> void:
 	if event is InputEventMouseButton:
 		print("Mouse Click/Unclick at: ", event.position)
+
 
 func _process(delta: float) -> void:
 	var dir = get_move_dir()
@@ -28,7 +37,7 @@ func _process(delta: float) -> void:
 	
 	update_rotation()
 	update_anim()
-	update_crosshair()
+
 
 func get_move_dir() -> Vector2:
 	var dir = Vector2()
@@ -42,6 +51,7 @@ func get_move_dir() -> Vector2:
 		dir.x -= 1
 	return dir
 
+
 func update_rotation() -> void:
 	sprite_body.look_at(get_global_mouse_position())
 	sprite_body.rotate(deg2rad(90))
@@ -52,6 +62,7 @@ func update_rotation() -> void:
 		sprite_legs.look_at(global_position + move_vec)
 	sprite_legs.rotate(deg2rad(90))
 
+
 func update_anim() -> void:
 	if is_move:
 		if is_runing:
@@ -61,13 +72,11 @@ func update_anim() -> void:
 	else:
 		play_anim("player_idle")
 
-func update_crosshair() -> void:
-	var angle = global_position.angle_to_point(get_global_mouse_position())
-	get_tree().current_scene.ui_node.get_node("crosshair").rotation = angle + deg2rad(-90)
 
 func play_anim(anim_name: String) -> void:
 	if anim.current_animation != anim_name:
 		anim.play(anim_name)
+
 
 func _physics_process(delta: float) -> void:
 	move_and_slide(move_vec * (RUN_SPEED if is_runing else SPEED))

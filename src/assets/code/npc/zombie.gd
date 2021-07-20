@@ -17,8 +17,11 @@ func _ready() -> void:
 	yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
-	player = get_tree().current_scene.player_node
-	nav = get_tree().current_scene.nav_node
+	player = $"/root/_InGame".pick_node("Player")
+	nav = $"/root/_InGame".pick_node("Nav")
+	if nav == null:
+		printerr("Can't found Nav node")
+
 
 func _physics_process(delta: float) -> void:
 	if player == null:
@@ -42,6 +45,7 @@ func _physics_process(delta: float) -> void:
 	$body.look_at(global_position + _dir)
 	$body.rotation += deg2rad(90)
 	update()
+
 
 func damage(val: int, dir: Vector2) -> void:
 	var b = blood_part.instance()

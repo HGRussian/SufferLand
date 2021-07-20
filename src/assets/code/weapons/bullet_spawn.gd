@@ -20,7 +20,7 @@ func _ready() -> void:
 	current_ammo = MAX_AMMO
 	yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
-	crosshair = get_tree().current_scene.ui_node.get_node("crosshair")
+	crosshair = $"/root/_InGame".pick_node("Crosshair")
 
 func _process(delta: float) -> void:
 	# check ammo
