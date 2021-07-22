@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/objects/misc/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/art/ground/tree-sheet.png" type="Texture" id=2]
@@ -15,6 +15,47 @@
 [ext_resource path="res://assets/fonts/gohufont_11.tres" type="DynamicFont" id=13]
 [ext_resource path="res://assets/code/UI/InGameUI.gd" type="Script" id=14]
 [ext_resource path="res://assets/code/world/enemy_nav.gd" type="Script" id=15]
+
+[sub_resource type="Animation" id=6]
+resource_name = "fly_effect"
+length = 20.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:zoom")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4.2, 8.9, 14.5, 20 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.95, 0.95 ), Vector2( 1, 1 ), Vector2( 1.05, 1.05 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:offset")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 7.2, 12.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 16, -8 ), Vector2( -4, 16 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rotation_degrees")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 7.2, 14.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 9.4, -10.0 ]
+}
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
@@ -34,6 +75,27 @@ glow_hdr_luminance_cap = 9.16
 glow_hdr_scale = 0.36
 adjustment_enabled = true
 adjustment_contrast = 0.82
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Label
+
+var zone_name
+var game_time = 0
+
+func _ready() -> void:
+	zone_name = OS.get_time_zone_info().name
+	update_time() 
+
+
+func update_time() -> void:
+	var time = OS.get_time()
+	var s = game_time % 60
+	var m = game_time / 60 % 60
+	var h = game_time / 3600
+	game_time += 1
+	text = \"%02d:%02d:%02d%s\\n%02d:%02d:%02dREC\" % [time.hour, time.minute, time.second, zone_name, h, m, s]
+	get_tree().create_timer(1).connect(\"timeout\", self, \"update_time\")
+"
 
 [sub_resource type="NavigationPolygon" id=2]
 vertices = PoolVector2Array( 122.296, -21.6862, 129.789, -84.1234, 663.567, -512.334, 601.534, 559.601, 46.1226, -55.4023, 8.66022, -36.6711, -5.07599, -54.1535, -16.3147, -72.8847, 12.4064, -77.8797, 61.1075, -80.3772, 99.8187, -60.3973, 84.8337, -70.3873, 64.8538, -54.1535, 81.0875, -11.6962, 54.8638, -26.6812, -584.543, 517.419, 71.0975, -120.337, 94.8237, -121.586, 72.3463, -92.8647, -57.5233, -107.85, -36.2946, -115.342, -48.7821, -81.626, -82.4982, -67.8898, -45.0359, -57.8998, -55.0258, -26.6812, -73.757, -49.1586, -84.9957, -1.70624, -22.5584, -20.4374, 28.6401, -12.9449, -2.57849, -112.845, 13.6552, -112.845, -92.4882, -61.646, -128.702, -76.631, -111.219, -49.1586, -117.463, -7.94997, -524.991, -514.816, -102.478, -135.322, 44.8738, -122.835 )
@@ -81,6 +143,9 @@ extents = Vector2( 42.4225, 43.6938 )
 
 [node name="polygone" type="Node2D"]
 script = ExtResource( 8 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 585.14 ]
+}
 
 [node name="maxresdefault" type="Sprite" parent="."]
 self_modulate = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
@@ -151,8 +216,17 @@ polygon = PoolVector2Array( -7.64417, 23.2538, 8.46591, 18.885, 16.6575, 6.59762
 z_index = 2
 
 [node name="cam" type="Camera2D" parent="Player"]
+rotation = -0.0965064
+offset = Vector2( -4.10216, 16.0451 )
+rotating = true
 current = true
+zoom = Vector2( 1.03952, 1.03952 )
 script = ExtResource( 5 )
+
+[node name="cam_anim" type="AnimationPlayer" parent="Player/cam"]
+autoplay = "fly_effect"
+playback_speed = 0.3
+anims/fly_effect = SubResource( 6 )
 
 [node name="tree-sheet" type="Sprite" parent="."]
 modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
@@ -186,53 +260,109 @@ __meta__ = {
 }
 
 [node name="gun_info1" type="Label" parent="UI"]
-anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -85.9917
-margin_top = -48.4547
-margin_right = -15.9917
-margin_bottom = -34.4547
+margin_left = 17.7623
+margin_top = -61.9541
+margin_right = 107.762
+margin_bottom = -47.9541
 custom_fonts/font = ExtResource( 13 )
-text = "30/inf."
-align = 2
+text = "ammo	   =30/inf."
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="gun_info2" type="Label" parent="UI"]
-anchor_left = 1.0
+[node name="health" type="Label" parent="UI"]
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -85.9917
-margin_top = -36.3776
-margin_right = -15.9917
-margin_bottom = -22.3776
+margin_left = 17.7623
+margin_top = -49.877
+margin_right = 107.762
+margin_bottom = -35.877
 custom_fonts/font = ExtResource( 13 )
-custom_colors/font_color = Color( 0.501961, 0.501961, 0.501961, 1 )
-text = "00/00"
-align = 2
+text = "health =100/100"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="gun_info3" type="Label" parent="UI"]
+[node name="time" type="Label" parent="UI"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -85.9917
-margin_top = -24.5629
-margin_right = -15.9917
-margin_bottom = -10.5629
+margin_left = -152.0
+margin_top = -36.9095
+margin_right = -14.0
+margin_bottom = -9.90955
+custom_fonts/font = ExtResource( 13 )
+custom_constants/line_spacing = 0
+text = "health =100/100
+health =100/100"
+align = 2
+valign = 1
+script = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="height" type="Label" parent="UI"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -54.0
+margin_top = -96.0
+margin_bottom = 96.0
+custom_fonts/font = ExtResource( 13 )
+custom_constants/line_spacing = 0
+text = "-
+
+- 01 -
+
+-
+
+- 02 -
+
+-
+
+- 03 -
+
+-"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="line" type="Label" parent="UI/height"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -62.4106
+margin_top = -8.80377
+margin_right = -8.41064
+margin_bottom = 3.19623
+custom_fonts/font = ExtResource( 13 )
+text = "–       –"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="description" type="Label" parent="UI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 16.5442
+margin_top = -36.1133
+margin_right = 136.544
+margin_bottom = -12.1133
 custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.501961, 0.501961, 0.501961, 1 )
-text = "none"
-align = 2
+custom_constants/line_spacing = 0
+text = "Item/gun description
+on two lines"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -242,6 +372,7 @@ __meta__ = {
 script = ExtResource( 15 )
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="nav"]
+position = Vector2( 0, -0.516357 )
 navpoly = SubResource( 2 )
 
 [node name="zombie" parent="." instance=ExtResource( 9 )]
@@ -373,10 +504,38 @@ points = PoolVector2Array( -9.50595, -41.6176, 144.667, -26.786 )
 width = 1.0
 default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
+[node name="Line2D11" type="Line2D" parent="Node2D"]
+position = Vector2( -657.103, -131.544 )
+rotation = 0.078953
+points = PoolVector2Array( 130.777, -38.726, 122.029, -36.1196, 118.581, -24.2654, 126.479, -19.8016, 135.388, -27.9563, 146.558, -26.727 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D12" type="Line2D" parent="Node2D"]
+position = Vector2( -657.248, -153.863 )
+rotation = 0.078953
+points = PoolVector2Array( 101.746, -30.0246, 106.97, -22.3575, 118.581, -24.2654, 128.376, -24.6283, 138.505, -22.082, 146.558, -26.727 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
 [node name="Line2D2" type="Line2D" parent="Node2D"]
 position = Vector2( -2.56079, 20.9985 )
 rotation = 0.078953
 points = PoolVector2Array( 2.08012, 11.0779, 102.531, 28.3864 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D13" type="Line2D" parent="Node2D"]
+position = Vector2( 100.132, 47.4729 )
+rotation = 0.078953
+points = PoolVector2Array( 2.08012, 11.0779, 17.7459, 10.0504, 30.2091, 16.248, 36.2226, 26.2212, 44.2222, 31.0305 )
+width = 1.0
+default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
+
+[node name="Line2D14" type="Line2D" parent="Node2D"]
+position = Vector2( 107.84, 26.8109 )
+rotation = 0.078953
+points = PoolVector2Array( 2.08012, 11.0779, 10.2543, 17.2398, 16.3993, 25.7514, 29.0503, 33.5051, 39.8341, 37.6371 )
 width = 1.0
 default_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
@@ -406,6 +565,18 @@ position = Vector2( 103.456, 47.6307 )
 rotation = 0.379795
 texture = ExtResource( 12 )
 
+[node name="post7" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( 223.974, 98.7596 )
+rotation = 0.379795
+texture = ExtResource( 12 )
+
+[node name="post8" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( 363.391, 146.265 )
+rotation = 0.11958
+texture = ExtResource( 12 )
+
 [node name="post2" type="Sprite" parent="Node2D"]
 modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
 position = Vector2( -118.821, 5.12157 )
@@ -428,6 +599,12 @@ texture = ExtResource( 12 )
 modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
 position = Vector2( -507.036, -157.745 )
 rotation = -0.0115794
+texture = ExtResource( 12 )
+
+[node name="post9" type="Sprite" parent="Node2D"]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+position = Vector2( -609.944, -186.064 )
+rotation = 0.360734
 texture = ExtResource( 12 )
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_Area2D_body_entered"]

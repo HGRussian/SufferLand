@@ -37,7 +37,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 8.0
+radius = 6.0
 
 [node name="zombie" type="KinematicBody2D"]
 z_index = 2
@@ -55,5 +55,4 @@ anims/die = SubResource( 1 )
 anims/walk = SubResource( 2 )
 
 [node name="col" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource( 3 )

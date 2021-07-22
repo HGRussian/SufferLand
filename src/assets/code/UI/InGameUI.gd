@@ -9,9 +9,9 @@ func _enter_tree() -> void:
 
 func set_primary_ammo(current_ammo, max_ammo) -> void:
 	crosshair.set_primary_ammo(current_ammo, max_ammo)
-	primary_gun_info.text = "%02d/%02d" % [current_ammo, max_ammo]
+	primary_gun_info.text = "ammo   =%02d/%02d" % [current_ammo, max_ammo]
 
 
 func reloading_primary(max_ammo) -> void:
 	crosshair.reloading_primary()
-	primary_gun_info.text = "../%02d" % max_ammo
+	primary_gun_info.text = "ammo   =../%02d" % max_ammo
